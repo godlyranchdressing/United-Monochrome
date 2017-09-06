@@ -1,0 +1,3181 @@
+//This is the RIGHT PLACE to edit the stylesheet
+//let's start by telling people not to edit the generated CSS:
+$cakeisalie: "This stylesheet is generated, DO NOT EDIT";
+
+/* #{$cakeisalie} */
+
+/* Copyright 2009, 2015 Red Hat, Inc.
+ *
+ * Portions adapted from Mx's data/style/default.css
+ *   Copyright 2009 Intel Corporation
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms and conditions of the GNU Lesser General Public License,
+ * version 2.1, as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
+/* GLOBALS */
+stage {
+  font-family: $font-family;
+
+  @include font(body-1);
+
+  color: $fg_color;
+}
+
+/* WIDGETS */
+/* Buttons */
+.button {
+  transition-duration: $standard_duration;
+  min-height: $medium_size;
+  padding: 0 16px;
+  border-width: 0;
+  border-radius: 0px;
+
+  @include font(button);
+
+  @include button;
+
+  &:hover {
+    background-color: $semi_fill_color !important;
+  }
+
+  &:active {
+    background-color: $fill_color !important;
+  }
+}
+
+.modal-dialog-linked-button {
+  min-height: $medium_size + 8;
+  padding: 0 16px;
+  border-top: 1px solid $border_color !important;
+
+  @include font(button);
+
+  @include button;
+
+  & {
+    // some anti-aliasing thingie with the rounded corners
+    box-shadow: inset 0 0 1px if($transparency == "true", $base_color, $lighter_bg_color), 0 0 1px if($transparency == "true", $base_color, $lighter_bg_color) !important;
+
+    &:hover, &:focus {
+      box-shadow: inset 0 0 1px $semi_fill_color;
+    }
+
+    &:active {
+      box-shadow: inset 0 0 1px $fill_color;
+    }
+  }
+
+  &:first-child {
+    border-radius: 0 0 0 ($standard_radius * 2) !important;
+    border-right: 1px solid $border_color;
+    border-left: 0px solid $border_color;
+  }
+
+  &:last-child {
+    border-right-width: 0px;
+    border-radius: 0 0 ($standard_radius * 2) 0 !important;
+  }
+
+  &:first-child:last-child {
+    border-radius: 0 0 ($standard_radius * 2) ($standard_radius * 2) !important;
+  }
+}
+
+/* Entries */
+StEntry {
+  min-height: $medium_size;
+  padding: 0 8px;
+  border-radius: 0;
+  border-width: 0;
+  selection-background-color: $primary_color;
+  selected-color: $white;
+
+  @include font(subheading);
+
+  @include entry($primary_color);
+
+  StIcon.capslock-warning {
+    icon-size: 16px;
+    warning-color: $warning_color;
+    padding: 0 0;
+  }
+}
+
+/* Scrollbars */
+
+StScrollView {
+  &.vfade {
+    -st-vfade-offset: 32px;
+  }
+
+  &.hfade {
+    -st-hfade-offset: 32px;
+  }
+}
+
+StScrollBar {
+  padding: 0;
+
+  StScrollView & {
+    min-width: 16px;
+    min-height: 16px;
+  }
+
+  StBin#trough {
+    margin: 4px;
+    border-radius: 100px;
+    background-color: $disabled_fill_color;
+  }
+
+  StButton#vhandle, StButton#hhandle {
+    border-radius: 100px;
+    background-color: $tertiary_fg_color;
+
+    /*
+     //would be nice to margin or at least to transparent
+    border: 4px solid transparent;
+    */
+    margin: 4px;
+
+    &:hover {
+      background-color: transparentize($primary_color, $middle_opacity);
+    }
+
+    &:active {
+      background-color: transparentize($primary_color, $disabled_opacity);
+    }
+  }
+}
+
+%overview_scrollbar {
+  StBin#trough {
+    background-color: $disabled_inverse_fill_color;
+  }
+
+  StButton#vhandle, StButton#hhandle {
+    background-color: $tertiary_fg_color;
+
+    &:hover {
+      background-color: transparentize($primary_color, $middle_opacity);
+    }
+
+    &:active {
+      background-color: transparentize($primary_color, $disabled_opacity);
+    }
+  }
+}
+
+/* Slider */
+
+.slider {
+  height: 2px;
+  color: $accent_color;
+  -slider-height: 2px;
+  -slider-background-color: $secondary_fg_color;
+
+  //background of the trough
+  -slider-border-color: transparent;
+
+  //trough border color
+  -slider-active-background-color: $accent_color;
+  -slider-handle-border-color: $accent_color;
+
+  //active trough fill
+  -slider-active-border-color: transparent;
+
+  //active trough border
+  -slider-border-width: 0px;
+  -slider-handle-radius: 0px;
+  -slider-handle-border-width: 12px;
+  -slider-border-radius: 0px;
+}
+
+/* Check Boxes */
+
+.check-box {
+  * {
+    min-height: $medium_size - 8px * 2;
+    padding: 8px 0;
+  }
+
+  StBoxLayout {
+    spacing: 8px;
+  }
+
+  StBin {
+    width: 24px;
+    height: 24px;
+    padding: ($medium_size - 24px) / 2;
+    transition-duration: 250ms;
+
+    //border-radius: 100px;
+    background-image: url("assets/checkbox-off.svg");
+  }
+
+  &:hover, &:active, &:checked {
+    transition-duration: $standard_duration;
+  }
+
+  &:hover StBin {
+    background-image: url("assets/checkbox-hover.svg");
+  }
+
+  &:active StBin {
+    background-image: url("assets/checkbox-active.svg");
+  }
+
+  &:checked StBin {
+    background-image: url("assets/checkbox.svg");
+  }
+}
+
+/* Switches */
+.toggle-switch {
+  width: 48px;
+  height: 20px;
+  background-size: contain;
+}
+
+@each $v in us, intl {
+  .toggle-switch-#{$v} {
+    background-image: url("assets/toggle-off.svg");
+
+    &:checked {
+      background-image: url("assets/toggle-on.svg");
+    }
+  }
+}
+
+/* links */
+.shell-link {
+  border-radius: $standard_radius;
+  color: $link_color;
+
+  &:hover {
+    color: $link_color;
+    background-color: scale-alpha($link_color, $lower_opacity / 2);
+  }
+
+  &:active {
+    color: $link_color;
+    background-color: scale-alpha($link_color, $lower_opacity);
+  }
+}
+
+/* Modal Dialogs */
+
+.headline {
+  @include font(title);
+}
+
+.lightbox {
+  background-color: black;
+}
+
+.flashspot {
+  background-color: white;
+}
+
+.modal-dialog {
+  @extend %osd-panel;
+
+  padding: 2px;
+  color: $fg_color;
+
+  .modal-dialog-content-box {
+    padding: 24px;
+  }
+
+  .run-dialog-entry {
+    width: 20em;
+    color: $fg_color;
+    margin-bottom: 6px;
+  }
+
+  .run-dialog-error-box {
+    padding-top: 16px;
+    spacing: 6px;
+  }
+
+  .run-dialog-button-box {
+    padding-top: 1em;
+  }
+
+  .run-dialog-label {
+    font-size: 1em;
+    font-weight: 400;
+    color: $secondary_fg_color;
+    padding-bottom: .4em;
+  }
+}
+
+.show-processes-dialog-subject,
+.mount-question-dialog-subject,
+.end-session-dialog-subject {
+  //this should be a generic header class
+  @include font(title);
+}
+
+/* End Session Dialog */
+.end-session-dialog {
+  @extend %osd-panel;
+
+  spacing: 42px;
+  background-color: red;
+
+  // border: 1px solid if($variant == "light", transparentize($fg_color, $middle_opacity), $border_color);
+}
+
+.end-session-dialog-list {
+  padding-top: 20px;
+}
+
+.end-session-dialog-layout {
+  padding-left: 17px;
+
+  &:rtl {
+    padding-right: 17px;
+  }
+}
+
+.end-session-dialog-description {
+  width: 28em;
+  padding-bottom: 10px;
+
+  &:rtl {
+    text-align: right;
+  }
+}
+
+.end-session-dialog-warning {
+  width: 28em;
+  color: $warning_color;
+  padding-top: 6px;
+
+  &:rtl {
+    text-align: right;
+  }
+}
+
+.end-session-dialog-logout-icon {
+  //border: 2px solid #8b8b8b;
+  border-radius: 5px;
+  width: 48px;
+  height: 48px;
+  background-size: contain;
+}
+
+.end-session-dialog-shutdown-icon {
+  color: $tertiary_fg_color;
+  width: 48px;
+  height: 48px;
+}
+
+.end-session-dialog-inhibitor-layout {
+  spacing: 16px;
+  max-height: 200px;
+  padding-right: 65px;
+  padding-left: 65px;
+}
+
+.end-session-dialog-session-list,
+.end-session-dialog-app-list {
+  spacing: 1em;
+}
+
+.end-session-dialog-list-header {
+  font-weight: 400;
+
+  &:rtl {
+    text-align: right;
+  }
+}
+
+.end-session-dialog-app-list-item,
+.end-session-dialog-session-list-item {
+  spacing: 1em;
+}
+
+.end-session-dialog-app-list-item-name,
+.end-session-dialog-session-list-item-name {
+  font-weight: 400;
+}
+
+.end-session-dialog-app-list-item-description {
+  color: $tertiary_fg_color;
+  font-size: 1em;
+}
+
+/* ShellMountOperation Dialogs */
+.shell-mount-operation-icon {
+  icon-size: 48px;
+}
+
+.show-processes-dialog,
+.mount-question-dialog {
+  @extend %osd-panel;
+
+  spacing: 24px;
+}
+
+.show-processes-dialog-subject,
+.mount-question-dialog-subject {
+  padding-top: 10px;
+  padding-left: 17px;
+  padding-bottom: 6px;
+}
+
+.mount-question-dialog-subject {
+  max-width: 500px;
+}
+
+.show-processes-dialog-subject:rtl,
+.mount-question-dialog-subject:rtl {
+  padding-left: 0px;
+  padding-right: 17px;
+}
+
+.show-processes-dialog-description,
+.mount-question-dialog-description {
+  padding-left: 17px;
+  width: 28em;
+}
+
+.show-processes-dialog-description:rtl,
+.mount-question-dialog-description:rtl {
+  padding-right: 17px;
+}
+
+.show-processes-dialog-app-list {
+  max-height: 200px;
+  padding-top: 24px;
+  padding-left: 49px;
+  padding-right: 32px;
+}
+
+.show-processes-dialog-app-list:rtl {
+  padding-right: 49px;
+  padding-left: 32px;
+}
+
+.show-processes-dialog-app-list-item {
+  color: $fg_color;
+
+  &:hover {
+    color: $fg_color;
+  }
+
+  &:ltr {
+    padding-right: 1em;
+  }
+
+  &:rtl {
+    padding-left: 1em;
+  }
+}
+
+.show-processes-dialog-app-list-item-icon {
+  &:ltr {
+    padding-right: 17px;
+  }
+
+  &:rtl {
+    padding-left: 17px;
+  }
+}
+
+.show-processes-dialog-app-list-item-name {
+  font-size: 1em;
+}
+
+/* Password or Authentication Dialog */
+
+.prompt-dialog {
+  @extend %osd-panel;
+
+  min-width: 500px;
+  max-width: 600px;
+}
+
+.prompt-dialog-main-layout {
+  spacing: 24px;
+  padding: 10px;
+  color: $fg_color;
+}
+
+.prompt-dialog-message-layout {
+  spacing: 16px;
+}
+
+.prompt-dialog-headline {
+  @include font(title);
+
+  color: $fg_color;
+}
+
+.prompt-dialog-description:rtl {
+  text-align: right;
+}
+
+.prompt-dialog-password-box {
+  spacing: .5em;
+  padding-bottom: .5em;
+}
+
+.prompt-dialog-error-label {
+  font-size: 1em;
+  color: $error_color;
+  padding-bottom: 8px;
+}
+
+.prompt-dialog-info-label {
+  font-size: 1em;
+  color: $fg_color;
+  padding-bottom: 8px;
+}
+
+.hidden {
+  color: rgba(0, 0, 0, 0);
+}
+
+.prompt-dialog-null-label {
+  font-size: 1em;
+  padding-bottom: 8px;
+}
+
+/* Polkit Dialog */
+
+.polkit-dialog-user-layout {
+  padding-left: 10px;
+  spacing: 10px;
+
+  &:rtl {
+    padding-left: 0px;
+    padding-right: 10px;
+  }
+}
+
+.polkit-dialog-user-root-label {
+  color: $warning_color;
+}
+
+.polkit-dialog-user-icon {
+  border-radius: 5px;
+  background-size: contain;
+  width: 48px;
+  height: 48px;
+}
+
+/* Audio selection dialog */
+.audio-device-selection-dialog {
+  @extend %osd-panel;
+
+  spacing: 30px;
+}
+
+.audio-selection-content {
+  spacing: 20px;
+  padding: 24px;
+}
+
+.audio-selection-title {
+  font-weight: 400;
+  text-align: center;
+}
+
+.audio-selection-box {
+  spacing: 20px;
+}
+
+.audio-selection-device {
+  border: 1px solid $border_color;
+  border-radius: $standard_radius;
+
+  &:hover, &:focus {
+    background-color: _hover_shade($primary_color);
+  }
+
+  &:active {
+    background-color: _pressed_shade($primary_color);
+  }
+}
+
+.audio-selection-device-box {
+  padding: 20px;
+  spacing: 20px;
+}
+
+.audio-selection-device-icon {
+  icon-size: 64px;
+}
+
+/* Access Dialog */
+.access-dialog {
+  @extend %osd-panel;
+
+  spacing: 30px;
+}
+
+.access-dialog-main-layout {
+  padding: 12px 20px 0;
+  spacing: 12px;
+}
+
+.access-dialog-content {
+  max-width: 28em;
+  spacing: 20px;
+}
+
+.access-dialog-icon {
+  min-width: 48px;
+  icon-size: 48px;
+}
+
+.access-dialog-title {
+  font-weight: 400;
+}
+
+.access-dialog-subtitle {
+  color: $tertiary_fg_color;
+  font-weight: 400;
+}
+
+/* Geolocation Dialog */
+.geolocation-dialog {
+  @extend %osd-panel;
+
+  spacing: 30px;
+}
+
+.geolocation-dialog-main-layout {
+  spacing: 12px;
+}
+
+.geolocation-dialog-content {
+  spacing: 20px;
+}
+
+.geolocation-dialog-icon {
+  icon-size: 48px;
+}
+
+.geolocation-dialog-title {
+  font-weight: 400;
+}
+
+.geolocation-dialog-reason {
+  color: $tertiary_fg_color;
+  font-weight: 400;
+}
+
+/* Network Agent Dialog */
+
+.network-dialog-secret-table {
+  spacing-rows: 15px;
+  spacing-columns: 1em;
+}
+
+.keyring-dialog-control-table {
+  spacing-rows: 15px;
+  spacing-columns: 1em;
+}
+
+/* Popovers/Menus */
+
+.popup-menu {
+  min-width: 200px;
+  border-radius: $standard_radius !important;
+  border: 1px solid $border_color;
+
+  & {
+    // some anti-aliasing thingie with the rounded corners
+    box-shadow: inset 0 0 1px $base_color, 0 0 1px $base_color !important;
+  }
+
+  .popup-menu-arrow {}
+
+  //defined globally in the TOP BAR
+  .popup-sub-menu {
+    background-color: $alt_bg_color;
+    box-shadow: inset 0 -1px $border_color;
+  }
+
+  .popup-menu-content {
+    padding: 12px 0;
+  }
+
+  .popup-menu-item {
+    // min-height: $menuitem_size - 4px * 2;
+    transition-duration: $shorter_duration;
+    spacing: 4px;
+    box-shadow: none;
+    border-width: 1px 0 1px 0;
+    border-color: transparent;
+    border-style: solid;
+
+    &:ltr {
+      padding: 0.4em 24px 0.4em 0;
+    }
+
+    &:rtl {
+      padding: 0.4em 0 0.4em 24px;
+    }
+
+    &:hover, &.selected {
+      background-color: $semi_fill_color;
+    }
+
+    &:active {
+      background-color: $fill_color;
+    }
+
+    &:hover, &.selected, &:active {
+      color: $fg_color;
+    }
+
+    &:checked {
+      border-top: 1px solid if($variant == "light", transparentize($fg_color, 0.5), $border_color);
+      border-bottom: 1px solid if($variant == "light", transparentize($fg_color, 0.5), $border_color);
+      font-weight: 400;
+
+      &, &.selected {
+        color: if($variant == "light", $light_fg_color, $fg_color);
+        background-color: if($variant == "light", $primary_color, $fill_color);
+      }
+    }
+
+    &:insensitive {
+      color: $disabled_fg_color;
+    }
+  }
+
+  .popup-inactive-menu-item {
+    //all icons and other graphical elements
+    color: $fg_color;
+
+    &:insensitive {
+      color: $tertiary_fg_color;
+    }
+  }
+
+  //.popup-status-menu-item { font-weight: 400;  color: pink; } //dunno what that is
+  &.panel-menu {
+    -boxpointer-gap: $menu_gap;
+    border-radius: $standard_radius;
+    border: 1px solid $border_color;
+    margin-bottom: 1.75em;
+
+    @if $variant == "light" {
+      border-width: 0px;
+      box-shadow: $popover_shadow !important;
+    }
+  }
+}
+
+.popup-menu-ornament {
+  text-align: right;
+  width: 16px;
+  height: 16px;
+}
+
+.popup-menu-boxpointer,
+.candidate-popup-boxpointer {
+  -arrow-border-radius: 0;
+  -arrow-background-color: transparent;
+  -arrow-border-width: 0;
+  -arrow-border-color: transparent;
+  -arrow-base: 0;
+  -arrow-rise: 0;
+  -arrow-box-shadow: none;
+
+  //dreaming. bug #689995
+  margin: 0px 8px 8px;
+  background-color: $bg_color;
+  border-radius: 1px;
+  box-shadow: none;
+}
+
+.popup-separator-menu-item {
+  // TODO: make this resemble the search separator
+  //-margin-horizontal: 24px;
+  height: 1px;
+
+  //not really the whole box
+  margin: 0px (64px - if($compact == true, 32px, 24px));
+  background-color: transparent;
+  border-color: $border_color;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+// Background menu
+.background-menu {
+  -boxpointer-gap: $menu_gap;
+  -arrow-rise: 0;
+}
+
+/* fallback menu
+- odd thing for styling App menu when apparently not running under shell. Light Adwaita styled
+  app menu inside the main app window itself rather than the top bar
+*/
+
+/* OSD */
+.osd-window {
+  text-align: center;
+  font-weight: 400;
+  spacing: 1em;
+  margin: 32px;
+  min-width: 64px;
+  min-height: 64px;
+
+  .osd-monitor-label {
+    @include font(display-2);
+  }
+
+  .level {
+    height: 0.3em;
+    border-radius: $standard_radius;
+    background-color: $secondary_fg_color;
+    color: $fg_color;
+  }
+
+  .level-bar {
+    color: $disabled_fill_color;
+    background-color: $accent_color;
+    border-radius: $standard_radius;
+  }
+}
+
+/* Pad OSD */
+.pad-osd-window {
+  padding: 32px;
+  background-color: $bg_color;
+
+  .pad-osd-title-box {
+    spacing: 12px;
+  }
+
+  .pad-osd-title-menu-box {
+    spacing: 6px;
+  }
+}
+
+.combo-box-label {
+  width: 15em;
+}
+
+/* App Switcher */
+.switcher-popup {
+  padding: 8px;
+  spacing: 16px;
+}
+
+.osd-window,
+.resize-popup,
+.switcher-list {
+  @extend %osd-panel;
+}
+
+.switcher-list-item-container {
+  spacing: 8px;
+}
+
+.switcher-list .item-box {
+  padding: 8px;
+  border-radius: $standard_radius;
+}
+
+.switcher-list .item-box:outlined {
+  padding: 8px;
+  border: none;
+  background-color: $disabled_fill_color;
+}
+
+.switcher-list .item-box:selected {
+  background-color: $alt_base_color;
+  border: 2px solid $primary_color;
+  color: $fg_color;
+}
+
+.switcher-list .thumbnail-box {
+  padding: 2px;
+  spacing: 4px;
+}
+
+.switcher-list .thumbnail {
+  width: 256px;
+}
+
+.switcher-list .separator {
+  width: 1px;
+  background: $border_color;
+}
+
+.switcher-arrow {
+  border-color: rgba(0, 0, 0, 0);
+  color: $tertiary_fg_color;
+
+  &:highlighted {
+    color: $fg_color;
+  }
+}
+
+.input-source-switcher-symbol {
+  @include font(display-2);
+
+  width: 96px;
+  height: 96px;
+}
+
+/* Window Cycler */
+.cycler-highlight {
+  border: 4px solid $primary_color;
+}
+
+/* Workspace Switcher */
+.workspace-switcher-group {
+  padding: 8px;
+}
+
+.workspace-switcher-container {
+  @extend %osd-panel;
+}
+
+.workspace-switcher {
+  background: transparent;
+  border: 0px;
+  border-radius: 0px;
+  padding: 0px;
+  spacing: 8px;
+}
+
+.ws-switcher-active-up, .ws-switcher-active-down {
+  height: 48px;
+  background-color: $primary_color;
+  color: $fg_color;
+  background-size: 32px;
+  border-radius: $standard_radius;
+}
+
+.ws-switcher-box {
+  height: 48px;
+  border: none;
+  background: $disabled_fill_color;
+  border-radius: $standard_radius;
+}
+
+%osd-panel {
+  color: $fg_color;
+
+  // background-color: if($variant == "light", $bg_color, $base_color);
+  // box-shadow: 0 0 0 $osd_border_length $osd_border_color !important;
+  // border-width: 1px solid $dark_border_color !important;
+  // border-radius: ($standard_radius * 2) !important;
+  border-image: url("assets/osd_background.svg") 40 40 40 40;
+  border-width: if($variant == "light", 24px, 25px);
+}
+
+/* Tiled window previews */
+.tile-preview {
+  background-color: scale-alpha($white, $quarternary_opacity);
+  border: 1px solid $white;
+}
+
+.tile-preview-left.on-primary {
+  border-radius: $panel-corner-radius $panel-corner-radius 0 0;
+}
+
+.tile-preview-right.on-primary {
+  border-radius: 0 $panel-corner-radius 0 0;
+}
+
+.tile-preview-left.tile-preview-right.on-primary {
+  border-radius: $panel-corner-radius $panel-corner-radius 0 0;
+}
+
+/* TOP BAR */
+
+#panel {
+  background-color: if($transparency == true, transparentize($panel_bg_color, 0.6), $panel_bg_color);
+  box-shadow: if($variant == "light", $popover_shadow, none);
+  font-size: 9.5pt;
+  height: if($compact == true, 2em, 2.4em);
+
+  @if $transparency == true {
+    &.solid {
+      background-color: $panel_bg_color;
+    }
+  }
+
+  &:overview,
+  &.unlock-screen,
+  &.login-screen,
+  &.lock-screen {
+    background-color: $bg_color;
+
+    &:overview {
+      #panelActivities.panel-button {
+        color: $primary_color;
+        box-shadow: none;
+
+        &:hover {
+          color: $primary_color;
+        }
+      }
+    }
+  }
+
+  #panelLeft, #panelCenter {
+    // spacing between activities<>app menu and such
+    spacing: 0;
+  }
+
+  .panel-corner {
+    -panel-corner-radius: $panel-corner-radius;
+    -panel-corner-background-color: $bg_color;
+    -panel-corner-border-width: 2px;
+    -panel-corner-border-color: transparent;
+
+    &:active, &:overview, &:focus {
+      -panel-corner-border-color: $fg_color;
+    }
+
+    &.lock-screen, &.login-screen, &.unlock-screen {
+      -panel-corner-radius: 0;
+      -panel-corner-background-color: transparent;
+      -panel-corner-border-color: transparent;
+    }
+  }
+
+  @include global_menu_padding;
+
+  .panel-button {
+    -natural-hpadding: 10px;
+    -minimum-hpadding: 5px;
+    font-weight: 500 !important;
+    color: $fg_color;
+    transition-duration: $longer_duration;
+
+    &, .system-status-icon, .app-menu-icon > StIcon, .popup-menu-arrow {
+      &, &:hover, &:active {
+        text-shadow: none !important;
+        icon-shadow: none !important;
+      }
+    }
+
+    .app-menu-icon {
+      -st-icon-style: symbolic;
+      color: $fg_color;
+      margin-left: 0px;
+      margin-right: 10px;
+    }
+
+    &:hover {
+      color: if($variant == "light", _pressed_shade($fg_color), transparentize($fg_color, $lower_opacity));
+    }
+
+    &:active, &:overview, &:focus, &:checked {
+      // Trick due to St limitations. It needs a background to draw
+      // a box-shadow
+      background-color: rgba($bg_color, 0.01);
+      box-shadow: inset 0 -2px 0px $primary_color;
+      color: if($variant == "light", _pressed_shade($fg_color), transparentize($fg_color, $lower_opacity));
+
+      & > .system-status-icon {
+        icon-shadow: none;
+      }
+    }
+
+    .system-status-icon {
+      icon-size: em(18px);
+    }
+
+    .unlock-screen &,
+    .login-screen &,
+    .lock-screen & {
+      color: $secondary_fg_color;
+
+      &:focus, &:hover, &:active {
+        color: $fg_color;
+      }
+    }
+  }
+
+  @include uniform_panel_spacing;
+
+  .clock-display {
+    // style the notification dot
+
+    StBoxLayout:last-child > StLabel:last-child {
+      color: $primary_color;
+    }
+  }
+
+  .popup-menu-arrow {
+    // make sure uniform spacing rules don't apply to the popup-menu-arrows
+    min-width: 0px !important;
+    width: 0px !important;
+    padding: 0px !important;
+    -natural-hpadding: 0px !important;
+    height: 0px;
+  }
+
+  // spacing between power icon and (optional) percentage label
+  .power-status.panel-status-indicators-box {
+    spacing: 0;
+  }
+
+  .screencast-indicator {
+    color: $warning_color;
+  }
+}
+
+// calendar popover
+#calendarArea {
+  padding: if($compact == true, 8px 16px, 4px 12px);
+}
+
+.calendar {
+  margin-bottom: 0;
+}
+
+.calendar,
+.datemenu-today-button,
+.datemenu-displays-box,
+.message-list-sections {
+  margin: 0 8px;
+}
+
+.datemenu-calendar-column {
+  spacing: 8px;
+}
+
+.datemenu-displays-section {
+  padding-bottom: 0;
+}
+
+.datemenu-displays-box {
+  spacing: 8px;
+}
+
+.datemenu-calendar-column {
+  border: 0 solid $border_color;
+
+  &:ltr {
+    border-left-width: 0;
+  }
+
+  &:rtl {
+    border-right-width: 0;
+  }
+}
+
+.datemenu-today-button,
+.world-clocks-button,
+.weather-button,
+.events-section-title, .message-list-section-title {
+  color: $fg_color;
+  min-height: $menuitem_size - 4px * 2;
+  padding: 4px 8px;
+  border-radius: 0px;
+
+  &:hover {
+    background-color: $semi_fill_color;
+  }
+
+  &:active {
+    background-color: $fill_color;
+  }
+}
+
+.message-list-section-close {
+  > StIcon {
+    background-color: transparent;
+    padding: 2px;
+    color: $secondary_fg_color;
+  }
+
+  &:hover StIcon {
+    background-color: transparent;
+    color: $primary_color;
+  }
+
+  &:active StIcon {
+    background-color: transparent;
+    color: _pressed_shade($primary_color);
+  }
+}
+
+.datemenu-today-button {
+  min-height: $menuitem_size * 2 - 4px * 2;
+}
+
+.message-list-section-list:ltr {
+  padding-left: 0;
+}
+
+.message-list-section-list:rtl {
+  padding-right: 0;
+}
+
+.datemenu-today-button,
+.world-clocks-button,
+.weather-button,
+.events-section-title, .message-list-section-title {
+  border-radius: $standard_radius;
+  color: $fg_color;
+
+  &:hover, &:focus {
+    color: $fg_color;
+    box-shadow: $shadow_surround $border_color;
+    background-color: $semi_fill_color;
+  }
+
+  &:active {
+    box-shadow: $shadow_surround $border_color;
+    background-color: $fill_color;
+  }
+}
+
+.weather-button {
+  color: $secondary_fg_color;
+}
+
+.datemenu-today-button .day-label {}
+
+.datemenu-today-button .date-label {
+  @include font(headline);
+
+  font-weight: 400 !important;
+  text-align: center !important;
+}
+
+.world-clocks-header,
+.weather-header,
+.events-section-title {
+  color: $fg_color;
+  font-weight: 400;
+}
+
+.world-clocks-grid {
+  spacing-rows: 0.4em;
+}
+
+.weather-box {
+  spacing: 0.4em;
+}
+
+.calendar-month-label {
+  height: $menuitem_size - 6px * 2;
+  margin: 2px;
+  padding: 6px 16px;
+  border-radius: $standard_radius;
+  color: $fg_color;
+  font-weight: 400;
+  text-align: center;
+
+  &:focus {
+    background-color: $semi_fill_color;
+  }
+}
+
+.pager-button {
+  width: $menuitem_size;
+  height: $menuitem_size;
+  margin: 2px;
+  border-radius: 100px;
+  background-color: transparent;
+  color: $fg_color;
+
+  &:hover, &:focus {
+    background-color: $semi_fill_color;
+  }
+
+  &:active {
+    background-color: $fill_color;
+  }
+}
+
+.calendar-change-month-back {
+  //arrow back
+  background-image: url("assets/calendar-arrow-left.svg");
+
+  &:rtl {
+    background-image: url("assets/calendar-arrow-right.svg");
+  }
+
+  &:hover {
+    background-image: url("assets/calendar-arrow-left-hover.svg");
+
+    &:rtl {
+      background-image: url("assets/calendar-arrow-right-hover.svg");
+    }
+  }
+
+  &:active {
+    background-image: url("assets/calendar-arrow-left-active.svg");
+
+    &:rtl {
+      background-image: url("assets/calendar-arrow-right-active.svg");
+    }
+  }
+}
+
+.calendar-change-month-forward {
+  //arrow foreward
+  background-image: url("assets/calendar-arrow-right.svg");
+
+  &:rtl {
+    background-image: url("assets/calendar-arrow-left.svg");
+  }
+
+  &:hover {
+    background-image: url("assets/calendar-arrow-right-hover.svg");
+
+    &:rtl {
+      background-image: url("assets/calendar-arrow-left-hover.svg");
+    }
+  }
+
+  &:active {
+    background-image: url("assets/calendar-arrow-right-active.svg");
+
+    &:rtl {
+      background-image: url("assets/calendar-arrow-left-active.svg");
+    }
+  }
+}
+
+.calendar-change-month-back, .calendar-change-month-forward {
+  &, &:hover, &:active {
+    transition-duration: $standard_duration;
+  }
+
+  &:hover {
+    background-color: $semi_fill_color;
+  }
+
+  &:active {
+    background-color: $fill_color;
+  }
+
+  &:focus {
+    background-color: transparent;
+  }
+}
+
+.calendar-day-base {
+  @include font(caption);
+
+  color: $fg_color;
+  background-color: transparent;
+  text-align: center;
+  width: $menuitem_size;
+  height: $menuitem_size;
+  padding: 0;
+  margin: 2px;
+  transition-duration: 250ms;
+  border-radius: $standard_radius;
+
+  &:hover, &:focus {
+    background-color: $semi_fill_color !important;
+    box-shadow: $shadow_surround $border_color;
+
+    &:active, &:selected {
+      font-weight: 400 !important;
+      background-color: $border_color !important;
+      box-shadow: $shadow_surround _pressed_shade($border_color);
+    }
+  }
+
+  &.calendar-day-heading {
+    //day of week heading
+    width: $menuitem_size;
+    height: $menuitem_size - 7px;
+    margin-top: 2px;
+    padding: 7px 0 0;
+    border-radius: 100px;
+    background-color: transparent;
+    color: $disabled_fg_color;
+
+    @include font(caption);
+
+    font-weight: bolder;
+    text-align: center;
+  }
+}
+
+.calendar-day {
+  //border collapse hack - see calendar.js
+  color: $secondary_fg_color;
+  border-width: 0;
+
+  &:focus {
+    background-color: $semi_fill_color;
+  }
+}
+
+.calendar-day-top {
+  border-top-width: 0;
+}
+
+.calendar-day-left {
+  border-left-width: 0;
+}
+
+.calendar-work-day {}
+
+.calendar-nonwork-day {
+  color: $disabled_tertiary_fg_color;
+}
+
+.calendar-today {
+  border: none;
+
+  &, &:hover, &:focus {
+    box-shadow: $shadow_surround $border_color;
+  }
+
+  &:selected {
+    background-color: $primary_color;
+    color: $light_fg_color !important;
+  }
+}
+
+.calendar-day-with-events {
+  color: $fg_color;
+  font-weight: 400;
+  text-decoration: none;
+  background-image: url("assets/calendar-today.svg");
+}
+
+.calendar-other-month-day {
+  color: $disabled_secondary_fg_color !important;
+}
+
+.calendar-week-number {
+  width: $menuitem_size;
+  height: $menuitem_size - 7px;
+  margin: 2px;
+  padding: 7px 0 0;
+  border-radius: 100px;
+  background-color: transparent;
+  color: $tertiary_fg_color;
+  font-size: inherit;
+  font-weight: 400;
+  text-align: center;
+}
+
+/* Message list */
+.message-list {
+  width: 420px;
+}
+
+.message-list-clear-button.button {
+  @include button;
+
+  background-color: if($transparency == true, $base_color, $lighter_bg_color) !important;
+  border: 1px solid $border_color;
+  border-radius: $standard_radius;
+  margin: 8px 8px 0;
+
+  &, &:hover, &:focus, &:active {
+    @if $variant == "light" {
+      box-shadow: inset 0 -1px scale-alpha(black, 0.2);
+    }
+    @else {
+      box-shadow: inset 0 0 1px $lighter_bg_color, 0 0 1px $lighter_bg_color !important;
+    }
+  }
+}
+
+.message-list-sections {
+  spacing: 8px;
+}
+
+.message-list-section,
+.message-list-section-list {
+  spacing: 8px;
+}
+
+.message, %message {
+  transition-duration: $standard_duration;
+  min-height: $menuitem_size * 2;
+  background-color: $lighter_bg_color;
+  border: 1px solid $border_color;
+  box-shadow: inset 2px 0px $primary_color;
+  border-radius: 0 $standard_radius $standard_radius 0;
+
+  &:hover, &:active {
+    border: 1px solid _pressed_shade($border_color, 2) !important;
+  }
+
+  &:hover {
+    background-color: $semi_fill_color;
+  }
+
+  &:active {
+    background-color: $fill_color;
+  }
+}
+
+.message-icon-bin {
+  padding: 8px 0px 8px 8px;
+
+  &:rtl {
+    padding: 8px 8px 8px 0px;
+    box-shadow: inset -2px 0px $primary_color;
+  }
+}
+
+.message-icon-bin > StIcon {
+  color: $fg_color;
+  icon-size: 16px;
+  -st-icon-style: requested;
+  padding: 4px 0px 4px 4px;
+
+  &:rtl {
+    padding: 4px 4px 4px 0px;
+  }
+}
+
+.message-secondary-bin {
+  padding: 0 8px;
+}
+
+.message-secondary-bin > .event-time {
+  min-height: $small_size - 2px;
+  padding-top: 2px 0;
+  color: $tertiary_fg_color;
+  font-size: 1em;
+}
+
+.message-secondary-bin > StIcon {
+  icon-size: 16px;
+}
+
+.message-secondary-bin {
+  &:hover {
+    > StIcon {
+      color: _hover_shade($primary_color) !important;
+    }
+  }
+
+  &:active {
+    > StIcon {
+      color: _pressed_shade($primary_color) !important;
+    }
+  }
+}
+
+.message-title {
+  min-height: $small_size - 2px;
+  padding-top: 2px;
+  color: $fg_color;
+  font-weight: 400;
+  font-size: 1em;
+}
+
+.message-content {
+  min-height: $menuitem_size * 2 - 8px * 2;
+  padding: 8px;
+  color: $secondary_fg_color;
+  font-size: 1em;
+}
+
+.message-content * > StIcon {
+  icon-size: 16px;
+  border-radius: 16px;
+  padding: ($small_size - 16px) / 2;
+  color: $secondary_fg_color;
+}
+
+/* FIXME: how do you do this in sass? */
+.message-content *:hover > StIcon,
+.message-content *:focus > StIcon {
+  color: _hover_shade($primary_color);
+  background-color: transparent;
+}
+
+.message-content *:active > StIcon {
+  color: _pressed_shade($primary_color);
+  background-color: transparent;
+}
+
+.message-media-control {
+  margin: 16px 0;
+  padding: 8px;
+  border-radius: $circular_radius;
+  color: $secondary_fg_color;
+
+  &:hover, &:focus {
+    color: $primary_color;
+  }
+
+  &:active {
+    color: _pressed_shade($primary_color);
+  }
+
+  &:insensitive {
+    color: $disabled_secondary_fg_color;
+  }
+
+  &:last-child:ltr {
+    margin-right: 16px;
+    padding-right: 8px;
+  }
+
+  &:last-child:rtl {
+    margin-left: 16px;
+    padding-left: 8px;
+  }
+}
+
+.media-message-cover-icon {
+  icon-size: 32px !important;
+  margin: 8px 0;
+
+  &.fallback {
+    icon-size: 16px !important;
+    padding: 8px;
+    border: none;
+    border-radius: $standard_radius;
+    background-color: $semi_fill_color;
+    color: $tertiary_fg_color;
+  }
+}
+
+// a little unstructured mess:
+
+.system-switch-user-submenu-icon.user-icon {
+  icon-size: 20px;
+  padding: 0 2px;
+}
+
+.system-switch-user-submenu-icon.default-icon {
+  icon-size: 16px;
+  padding: 0 4px;
+}
+
+#appMenu {
+  spinner-image: url("assets/process-working.svg");
+  spacing: 4px;
+  padding: 0 12px;
+
+  .label-shadow {
+    color: transparent;
+  }
+}
+
+.aggregate-menu {
+  min-width: 280px;
+
+  .popup-menu-icon {
+    padding: 0 4px;
+  }
+}
+
+.system-menu-action {
+  transition-duration: $standard_duration;
+  color: $secondary_fg_color;
+  border-radius: 100px;
+
+  /* wish we could do 50% */
+  padding: ($large_size - 16px) / 2;
+  border: none;
+
+  & > StIcon {
+    icon-size: 16px;
+  }
+
+  &:hover, &:active {
+    transition-duration: $standard_duration;
+
+    // background-color: transparent !important;
+
+  }
+
+  &:hover {
+    background-color: $semi_fill_color;
+    color: _hover_shade(if($variant == "light", $primary_color, $fg_color));
+  }
+
+  &:active {
+    background-color: $fill_color;
+    color: _pressed_shade(if($variant == "light", $primary_color, $fg_color));
+  }
+}
+
+//Activities Ripples
+.ripple-box {
+  width: 48px;
+  height: 48px;
+  background-image: url("assets/corner-ripple-ltr.svg");
+  background-size: contain;
+}
+
+.ripple-box:rtl {
+  background-image: url("assets/corner-ripple-rtl.svg");
+}
+
+// not really top bar only
+.popup-menu-arrow {
+  width: 16px;
+  height: 16px;
+}
+
+.popup-menu-icon {
+  icon-size: em(16px);
+}
+
+//close buttons
+
+.window-close {
+  height: $medium_size;
+  width: $medium_size;
+  background-image: url("assets/window-close.svg");
+  background-size: $medium_size;
+
+  &:hover {
+    background-image: url("assets/window-close-hover.svg");
+  }
+
+  &:active {
+    background-image: url("assets/window-close-active.svg");
+  }
+}
+
+.window-close {
+  &:rtl {}
+
+  &:rtl:hover {}
+}
+
+/* NETWORK DIALOGS */
+
+.nm-dialog {
+  @extend %osd-panel;
+
+  min-height: 450px;
+  min-width: 470px;
+  max-height: 500px;
+}
+
+.nm-dialog-content {
+  spacing: 20px;
+  padding: 24px;
+}
+
+.nm-dialog-header-hbox {
+  spacing: 10px;
+}
+
+.nm-dialog-airplane-box {
+  spacing: 12px;
+}
+
+.nm-dialog-airplane-headline {
+  font-weight: 400;
+  text-align: center;
+}
+
+.nm-dialog-airplane-text {
+  color: $fg_color;
+}
+
+.nm-dialog-header-icon {
+  icon-size: 32px;
+}
+
+.nm-dialog-scroll-view {
+  border: none;
+}
+
+.nm-dialog-header {
+  @include font(title);
+}
+
+.nm-dialog-item {
+  font-size: 1em;
+  border-bottom: none;
+  border-radius: $standard_radius;
+  padding: 12px;
+  spacing: 20px;
+
+  &:hover, &:focus {
+    background-color: $semi_fill_color;
+  }
+
+  &:active {
+    background-color: $fill_color;
+  }
+}
+
+.nm-dialog-item:selected {
+  background-color: $primary_color;
+  color: $fg_color;
+}
+
+.nm-dialog-icons {
+  spacing: .5em;
+}
+
+.nm-dialog-icon {
+  icon-size: 16px;
+}
+
+.no-networks-label {
+  color: $tertiary_fg_color;
+}
+
+.no-networks-box {
+  spacing: 12px;
+}
+
+/* OVERVIEW */
+
+#overview {
+  background: url("assets/overview_gradient.svg") transparentize($black, 0.4);
+  background-size: cover;
+  spacing: 24px;
+
+  //
+  StScrollBar {
+    @extend %overview_scrollbar;
+  }
+}
+
+.overview-controls {
+  padding-bottom: 32px;
+}
+
+.window-picker {
+  //container around window thumbnails
+  -horizontal-spacing: 32px;
+  -vertical-spacing: 32px;
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-bottom: 48px;
+
+  &.external-monitor {
+    padding: 32px;
+  }
+}
+
+.window-clone-border {
+  border: $osd_border_length solid $osd_light_border_color;
+  box-shadow: inset 0 0 0 1px $osd_light_border_color;
+
+  // get around the possibility of there being one pixel of empty space between the border and the window preview
+  border-radius: $standard_radius * 2;
+}
+
+.window-caption {
+  @extend %label;
+
+  spacing: 25px;
+  border-color: transparent !important;
+  background-color: transparent !important;
+  -shell-caption-spacing: 12px;
+
+  &:hover {
+    background-color: $black !important;
+    border-color: $border_color !important;
+    color: $light_fg_color;
+  }
+}
+
+//search entry
+.search-entry {
+  width: 320px - 8px * 2;
+  padding: 0 8px;
+
+  @include entry;
+
+  background-color: $base_color;
+
+  &:focus {
+    padding: 0 8px;
+    box-shadow: $shadow_thicker_surround $primary_color;
+  }
+
+  .search-entry-icon {
+    color: transparentize($fg_color, $middle_opacity);
+    icon-size: 16px;
+    padding: 0 0;
+  }
+
+  &:focus {
+    .search-entry-icon {
+      color: $secondary_fg_color;
+    }
+  }
+}
+
+//search results
+
+#searchResultsBin {
+  max-width: 1000px;
+}
+
+#searchResultsContent {
+  padding-left: 20px;
+  padding-right: 20px;
+  spacing: 16px;
+}
+
+.search-section {
+  spacing: 16px;
+}
+
+// This should be equal to #searchResultsContent spacing
+.search-section-content {
+  spacing: 32px;
+}
+
+// This is the space between the provider icon and the results container
+.search-statustext {
+  // "no results"
+  @extend %status_text;
+}
+
+.list-search-results {
+  spacing: 3px;
+}
+
+.search-section-separator {
+  -gradient-height: 1px;
+  -gradient-start: rgba(255, 255, 255, 0);
+  -gradient-end: rgba(255, 255, 255, 0.4);
+  -margin-horizontal: 1.5em;
+  height: 1px;
+}
+
+.list-search-result-content {
+  spacing: 12px;
+  padding: 12px;
+}
+
+.list-search-result-title {
+  @include font(headline);
+
+  color: $light_fg_color;
+}
+
+.list-search-result-description {
+  color: $secondary_light_fg_color;
+}
+
+.search-provider-icon {
+  padding: 15px;
+}
+
+.search-provider-icon-more {
+  width: 16px;
+  height: 16px;
+  background-image: url("assets/more-results.svg");
+}
+
+/* DASHBOARD */
+
+#dash {
+  font-size: 1em;
+  color: $fg_color;
+  background-color: $dash_bg;
+  padding: 0;
+  border: 1px solid $border_color;
+  border-left-width: 0px;
+  border-radius: 0 $standard_radius $standard_radius 0;
+
+  &:rtl {
+    border-radius: $standard_radius 0 $standard_radius 0;
+    border-right-width: 0px;
+  }
+
+  .placeholder {
+    background-image: url("assets/dash-placeholder.svg");
+    background-size: contain;
+    height: 24px;
+  }
+
+  .empty-dash-drop-target {
+    width: 24px;
+    height: 24px;
+  }
+
+  .show-apps {
+    .overview-icon {
+      background-color: $launcher_background !important;
+      border-radius: $circular_radius;
+    }
+
+    &:hover, &:focus, &:checked {
+      .overview-icon {
+        background-color: darken($launcher_background, 7.5) !important;
+      }
+    }
+  }
+}
+
+.dash-item-container > StWidget {
+  padding: 3px 6px;
+}
+
+.dash-label, %label {
+  transition-duration: $standard_duration;
+  border-radius: $standard_radius;
+  padding: 8px;
+  color: $light_fg_color;
+  background-color: $black;
+  border: 1px solid $dark_border_color;
+  text-align: center;
+  -x-offset: 8px;
+}
+
+@include fancy_dock;
+
+/* App Vault/Grid */
+.icon-grid {
+  spacing: 30px;
+  -shell-grid-horizontal-item-size: 136px;
+  -shell-grid-vertical-item-size: 136px;
+
+  .overview-icon {
+    icon-size: 96px;
+  }
+}
+
+.app-view-controls {
+  // the backing behind the buttons
+  // this is going to have the background color and border radius
+  // the buttons themselves will render everything else
+  width: 320px;
+  margin-bottom: 50px;
+  background-color: $base_color;
+  border-radius: $standard_radius $standard_radius 0 0;
+  padding: 0;
+}
+
+.app-view-control {
+  padding: 0 32px;
+  font-weight: 400;
+
+  .button {
+    border: 1px solid $border_color;
+
+    // give the buttons some border radius to match the container's
+    &:first-child {
+      border-right-style: none;
+      border-radius: $standard_radius 0 0 $standard_radius;
+    }
+
+    &:last-child {
+      border-left-style: none;
+      border-radius: 0 $standard_radius $standard_radius 0;
+    }
+  }
+
+  &, &:hover, &:focus, &:active, &:checked {
+    // give a background color to make the box shadow render
+    background-color: rgba(0, 0, 0, 0.1) !important;
+    transition-duration: 250ms;
+  }
+
+  & {
+    color: $tertiary_fg_color;
+    box-shadow: $shadow_bottom $tertiary_fg_color;
+
+    &:hover, &:focus {
+      color: $fg_color;
+      box-shadow: $fg_color;
+      box-shadow: $shadow_bottom $fg_color;
+    }
+
+    &:active, &:checked {
+      color: $primary_color;
+      box-shadow: $shadow_bottom $primary_color;
+      font-weight: bold;
+    }
+  }
+}
+
+//Icon tile
+.search-provider-icon,
+.list-search-result {
+  @extend %icon_tile;
+
+  &:focus, &:selected, &:hover, &:active, &:checked {
+    box-shadow: $shadow_surround $border_color;
+  }
+
+  &:focus, &:selected, &:hover {
+    background-color: $inverse_semi_fill_color;
+    transition-duration: $standard_duration;
+  }
+
+  &:active, &:checked {
+    background-color: $inverse_fill_color;
+    transition-duration: $longer_duration;
+  }
+}
+
+.app-well-app,
+.app-well-app.app-folder,
+.grid-search-result {
+  & .overview-icon {
+    @extend %icon_tile;
+
+    box-shadow: $shadow_surround $border_color;
+  }
+
+  &:hover .overview-icon,
+  &:focus .overview-icon,
+  &:selected .overview-icon {
+    background-color: $inverse_semi_fill_color;
+    box-shadow: $shadow_surround $border_color;
+    transition-duration: 0s;
+    border-image: none;
+    background-image: none;
+  }
+
+  &:active .overview-icon,
+  &:checked .overview-icon {
+    background-color: $inverse_fill_color;
+    box-shadow: $shadow_surround $border_color;
+    transition-duration: $longer_duration;
+  }
+}
+
+.app-well-app-running-dot {
+  //running apps indicator
+  width: 24px;
+  height: 2px;
+  background-color: $primary_color;
+  margin-bottom: 1px;
+}
+
+%icon_tile {
+  color: $light_fg_color;
+  border-radius: $standard_radius;
+  padding: 6px;
+  border: none;
+  transition-duration: $longer_duration;
+  text-align: center;
+
+  &:hover {
+    background-color: $inverse_semi_fill_color !important;
+  }
+
+  &:active {
+    background-color: $inverse_fill_color !important;
+  }
+}
+
+@include ubuntu_launcher;
+
+// Collections
+.app-folder-popup {
+  //expanded collection
+  -arrow-border-radius: $standard_radius;
+  -arrow-background-color: $inverse_fill_color;
+  -arrow-base: 0px;
+  -arrow-rise: 12px;
+}
+
+.app-folder-popup-bin {
+  padding: 5px;
+  border: 1px solid $border_color;
+  border-radius: $standard_radius;
+}
+
+.app-folder-icon {
+  padding: 5px;
+  spacing-rows: 5px;
+  spacing-columns: 5px;
+}
+
+.page-indicator {
+  padding: 15px 20px;
+
+  .page-indicator-icon {
+    width: 12px;
+    height: 12px;
+    border-radius: 12px;
+    background-image: none;
+    background-color: scale-alpha($fg_color, $lower_opacity);
+  }
+
+  &:hover .page-indicator-icon {
+    background-image: none;
+    background-color: scale-alpha($fg_color, $middle_opacity);
+  }
+
+  &:active .page-indicator-icon {
+    background-image: none;
+    background-color: scale-alpha($fg_color, $higher_opacity);
+  }
+
+  &:checked .page-indicator-icon {
+    background-image: none;
+    background-color: $fg_color;
+    transition-duration: 0s;
+  }
+
+  &:checked:active {
+    background-image: none;
+  }
+}
+
+.no-frequent-applications-label {
+  @extend %status_text;
+}
+
+.app-well-app > .overview-icon.overview-icon-with-label,
+.grid-search-result .overview-icon.overview-icon-with-label {
+  padding: 10px 8px 5px 8px;
+  spacing: 4px;
+}
+
+// Workspace pager
+.workspace-thumbnails {
+  //container ala dash
+  @extend %overview-panel;
+
+  visible-width: 32px;
+
+  //amount visible before hover
+  spacing: 12px;
+  padding: 12px;
+  border-radius: $standard_radius 0 0 2px;
+
+  //border-width: 0; //fixme: can't have non unoform borders :(
+  &:rtl {
+    border-radius: 0 $standard_radius $standard_radius 0;
+  }
+}
+
+.workspace-thumbnail-indicator {
+  border: 0 solid $accent_color;
+  border-left-width: 2px;
+  padding: 6px;
+  border-radius: 0;
+}
+
+//Some hacks I don't even
+.search-display > StBoxLayout,
+.all-apps,
+.frequent-apps > StBoxLayout {
+  // horizontal padding to make sure scrollbars or dash don't overlap content
+  padding: 0px 88px 10px 88px;
+}
+
+%overview-panel {
+  color: $fg_color;
+  background-color: if($variant == "light", transparentize($semi_fill_color, $secondary_opacity), $semi_fill_color);
+  border: none;
+}
+
+%status_text {
+  @include font(display-2);
+
+  color: $light_fg_color;
+}
+
+/* NOTIFICATIONS & MESSAGE TRAY */
+
+.url-highlighter {
+  link-color: $link_color;
+}
+
+// Banners
+.notification-banner {
+  @extend %message;
+
+  background-color: if($transparency == true, $base_color, $lighter_bg_color) !important;
+  font-size: 1em;
+  width: 34em;
+  margin: $menu_gap - 2;
+
+  &:hover {
+    background-color: _hover_shade(if($transparency == true, $base_color, $lighter_bg_color)) !important;
+  }
+
+  &:active {
+    background-color: _pressed_shade(if($transparency == true, $base_color, $lighter_bg_color)) !important;
+  }
+
+  .notification-icon {
+    padding: 5px;
+  }
+
+  .notification-content {
+    padding: 5px;
+    spacing: 5px;
+  }
+
+  .secondary-icon {
+    icon-size: em(6px);
+  }
+
+  .notification-actions {
+    @include button;
+
+    background-color: transparent !important;
+    min-height: $small_size;
+    border-radius: 0 0 $standard_radius $standard_radius;
+
+    &:hover {
+      background-color: if($transparency == true, opacify(_hover_shade($lighter_bg_color), 0.25), $lighter_bg_color) !important;
+    }
+
+    &:active {
+      background-color: if($transparency == true, opacify(_pressed_shade($lighter_bg_color), 0.25), $lighter_bg_color) !important;
+    }
+  }
+
+  .notification-button {
+    margin-left: 2px;
+
+    // don't overlap the color stripe
+    background-color: transparent !important;
+    min-height: $small_size;
+    padding: 6px 0;
+    color: $secondary_fg_color;
+    font-weight: 500;
+    border-top: 1px solid $border_color;
+    border-radius: 0 0 $standard_radius $standard_radius;
+
+    &:hover {
+      background-color: $semi_fill_color !important;
+      color: $fg_color;
+    }
+
+    &:active {
+      // not working
+      // background-image: image($fill_color) !important;
+
+    }
+
+    &:first-child {
+      border-radius: 0 0 0 $standard_radius;
+    }
+
+    &:last-child {
+      border-radius: 0 0 $standard_radius 0;
+    }
+  }
+
+  &:last-child > :first-child {
+    // target the actual button
+    // this class seems to only be the actual dropdown and doesn't include the button itself
+    @extend %message;
+
+    &:hover {
+      background-color: if($transparency == true, opacify(_hover_shade($lighter_bg_color), 0.25), $lighter_bg_color) !important;
+    }
+
+    &:active {
+      background-color: if($transparency == true, opacify(_pressed_shade($lighter_bg_color), 0.25), $lighter_bg_color) !important;
+    }
+  }
+}
+
+.summary-source-counter {
+  font-size: 1em;
+  font-weight: 400;
+  height: 1.6em;
+  width: 1.6em;
+  -shell-counter-overlap-x: 3px;
+  -shell-counter-overlap-y: 3px;
+  background-color: $primary_color;
+  color: $fg_color;
+  border: 2px solid $fg_color;
+  border-radius: 0.9em;
+}
+
+.secondary-icon {
+  icon-size: em(16px);
+}
+
+//chat bubbles
+.chat-body {
+  spacing: 5px;
+}
+
+.chat-response {
+  margin: 5px;
+}
+
+.chat-log-message {
+  color: $fg_color;
+}
+
+.chat-new-group {
+  padding-top: 1em;
+}
+
+.chat-received {
+  padding-left: 4px;
+
+  &:rtl {
+    padding-left: 0px;
+    padding-right: 4px;
+  }
+}
+
+.chat-sent {
+  padding-left: 18pt;
+  color: $secondary_fg_color;
+
+  &:rtl {
+    padding-left: 0;
+    padding-right: 18pt;
+  }
+}
+
+.chat-meta-message {
+  padding-left: 4px;
+
+  @include font(caption);
+
+  color: $tertiary_fg_color;
+
+  &:rtl {
+    padding-left: 0;
+    padding-right: 4px;
+  }
+}
+
+//hotplug
+.hotplug-transient-box {
+  spacing: 6px;
+  padding: 2px 72px 2px 12px;
+}
+
+.hotplug-notification-item {
+  padding: 2px 10px;
+
+  &:focus {
+    padding: 1px 71px 1px 11px;
+  }
+}
+
+.hotplug-notification-item-icon {
+  icon-size: 24px;
+  padding: 2px 5px;
+}
+
+.hotplug-resident-box {
+  spacing: 8px;
+}
+
+.hotplug-resident-mount {
+  spacing: 8px;
+  border-radius: $standard_radius;
+
+  &:hover {
+    background-color: $semi_fill_color;
+  }
+
+  &:active {
+    background-color: $fill_color;
+  }
+}
+
+.hotplug-resident-mount-label {
+  color: inherit;
+  padding-left: 6px;
+}
+
+.hotplug-resident-mount-icon {
+  icon-size: 24px;
+  padding-left: 6px;
+}
+
+.hotplug-resident-eject-icon {
+  icon-size: 16px;
+}
+
+.hotplug-resident-eject-button {
+  padding: 7px;
+  border-radius: $standard_radius;
+  color: $fg_color;
+}
+
+/* Eeeky things */
+
+$legacy_icon_size: 24px;
+
+.legacy-tray {
+  background-color: $alt_base_color;
+  color: $fg_color;
+  border: none;
+  border-bottom-width: 0;
+
+  &:ltr {
+    border-radius: 0 $standard_radius 0 0;
+    border-left-width: 0;
+  }
+
+  &:rtl {
+    border-radius: $standard_radius 0 0 0;
+    border-right-width: 0;
+  }
+}
+
+.legacy-tray-handle,
+.legacy-tray-icon {
+  padding: 6px;
+
+  & StIcon {
+    icon-size: $legacy_icon_size;
+  }
+
+  &:hover, &:focus {
+    background-color: $inverse_semi_fill_color;
+  }
+
+  &:active {
+    background-color: $inverse_fill_color;
+  }
+}
+
+.legacy-tray-icon-box {
+  spacing: 12px;
+
+  &:ltr {
+    padding-left: 12px;
+  }
+
+  &:rtl {
+    padding-right: 12px;
+  }
+
+  & StButton {
+    width: $legacy_icon_size;
+    height: $legacy_icon_size;
+  }
+}
+
+//magnifier
+
+.magnifier-zoom-region {
+  border: 2px solid $primary_color;
+
+  &.full-screen {
+    border-width: 0;
+  }
+}
+
+//Keyboard
+/* On-screen Keyboard */
+
+#keyboard {
+  background-color: $alt_bg_color;
+}
+
+.keyboard-layout {
+  spacing: 10px;
+  padding: 10px;
+}
+
+.keyboard-row {
+  spacing: 15px;
+}
+
+.keyboard-key {
+  @include button;
+
+  @if $transparency == true {
+    background-color: $base_color;
+  }
+
+  min-height: $medium_size * 2;
+  min-width: $medium_size * 2;
+  font-size: 2em;
+  font-weight: 500;
+  border-radius: $standard_radius;
+  border: 1px solid $border_color;
+  color: inherit;
+
+  &:grayed {
+    //FIXME
+    background-color: $alt_bg_color;
+    color: $fg_color;
+    border-color: $alt_bg_color;
+  }
+
+  &:focus, &:hover {
+    background-color: $semi_fill_color !important;
+  }
+
+  &:active {
+    background-color: $fill_color;
+  }
+
+  // TODO: if you're using a touchscreen, the styling for the last pressed key is misleading
+  // it makes it look stuck but this might be impossible to avoid
+  // as the last place you touch when using a touchscreen always seems to have the "cursor" over it
+  // should probably submit a bug report?
+}
+
+.keyboard-subkeys {
+  //long press on a key popup
+  color: inherit;
+  padding: 5px;
+  -arrow-border-radius: 0;
+  -arrow-background-color: transparent;
+  -arrow-border-width: 0;
+  -arrow-border-color: transparent;
+  -arrow-base: 0;
+  -arrow-rise: 0;
+  -boxpointer-gap: $menu_gap;
+  background-color: $base_color;
+  border-radius: $standard_radius;
+}
+
+// IBus Candidate Popup
+
+.candidate-popup-content {
+  border: 1px solid $border_color !important;
+  padding: 8px;
+  spacing: 0;
+}
+
+.candidate-index {
+  padding: 0 4px 0 0;
+  color: $secondary_fg_color;
+
+  .candidate-box:selected & {
+    color: $light_fg_color;
+  }
+
+  .candidate-box:hover & {
+    color: $fg_color;
+  }
+}
+
+.candidate-box {
+  transition-duration: $standard_duration;
+  min-height: $menuitem_size;
+  padding: 0 8px;
+  border-radius: $standard_radius;
+
+  &:hover {
+    background-color: $semi_fill_color;
+    color: $fg_color;
+  }
+
+  &:active {
+    background-color: $fill_color;
+    color: $fg_color;
+  }
+
+  &:selected {
+    background-color: $primary_color;
+    color: $light_fg_color;
+  }
+}
+
+.candidate-page-button-box {
+  height: $menuitem_size;
+
+  .vertical & {
+    padding-top: 0;
+  }
+
+  .horizontal & {
+    padding-left: 0;
+  }
+}
+
+.candidate-page-button {
+  min-width: $menuitem_size;
+  min-height: $menuitem_size;
+  padding: 0;
+}
+
+.candidate-page-button-previous,
+.candidate-page-button-next {
+  border-radius: $standard_radius;
+
+  &:hover, &:active {
+    background-color: transparent !important;
+  }
+
+  &:hover {
+    StIcon {
+      color: _hover_shade($primary_color);
+    }
+  }
+
+  &:active {
+    StIcon {
+      color: _pressed_shade($primary_color);
+    }
+  }
+}
+
+.candidate-page-button-icon {
+  icon-size: em(16px);
+}
+
+/* Auth Dialogs & Screen Shield */
+
+.framed-user-icon {
+  background-size: contain;
+  border: none;
+  color: $fg_color;
+  border-radius: $standard_radius;
+
+  &:hover {
+    border-color: $fg_color;
+    color: $fg_color;
+  }
+}
+
+// LOGIN DIALOG
+
+.login-dialog-banner-view {
+  padding-top: 24px;
+  max-width: 23em;
+}
+
+.login-dialog {
+  @extend %osd-panel;
+
+  StEntry {
+    @include entry;
+  }
+
+  StIcon {
+    color: $fg_color;
+  }
+
+  .modal-dialog-button-box {
+    spacing: 3px;
+  }
+
+  .modal-dialog-button {
+    padding: 0 16px;
+
+    @include button;
+
+    color: $fg_color;
+    font-weight: 400;
+
+    & {
+      box-shadow: inset 0 0 1px if($transparency == "true", $base_color, $lighter_bg_color);
+
+      &.default, &:hover, &:focus {
+        box-shadow: inset 0 0 1px $semi_fill_color;
+      }
+
+      &:active {
+        box-shadow: inset 0 0 1px $fill_color;
+      }
+    }
+
+    &:first-child {
+      border-radius: 0 0 0 $standard_radius !important;
+    }
+
+    &:last-child {
+      border-radius: 0 0 $standard_radius 0 !important;
+    }
+
+    &:first-child:last-child {
+      border-radius: 0 0 $standard_radius $standard_radius;
+    }
+  }
+}
+
+.login-dialog-logo-bin {
+  padding: 24px 0px;
+}
+
+.login-dialog-banner {
+  color: $secondary_fg_color;
+}
+
+.login-dialog-button-box {
+  spacing: 5px;
+}
+
+.login-dialog-message-warning {
+  color: $warning_color;
+}
+
+.login-dialog-message-hint {
+  padding-top: 0;
+  padding-bottom: 20px;
+}
+
+.login-dialog-user-selection-box {
+  padding: 100px 0px;
+
+  .login-dialog-not-listed-label {
+    padding-left: 2px;
+
+    .login-dialog-not-listed-button:focus &,
+    .login-dialog-not-listed-button:hover & {
+      color: $fg_color;
+    }
+  }
+}
+
+.login-dialog-not-listed-label {
+  font-size: 1em;
+  font-weight: 400;
+  color: $disabled_fg_color;
+  padding-top: 1em;
+}
+
+.login-dialog-user-list-view {
+  -st-vfade-offset: 1em;
+}
+
+.login-dialog-user-list {
+  spacing: 12px;
+  padding: .2em;
+  width: 23em;
+
+  &:expanded .login-dialog-user-list-item:focus {
+    background-color: $inverse_semi_fill_color;
+    color: $fg_color;
+  }
+
+  &:expanded .login-dialog-user-list-item:hover {
+    background-color: $inverse_semi_fill_color;
+    color: $fg_color;
+  }
+
+  &:expanded .login-dialog-user-list-item:active {
+    background-color: $inverse_fill_color;
+    color: $fg_color;
+  }
+
+  &:expanded .login-dialog-user-list-item:logged-in {
+    border-right: 2px solid $fg_color;
+  }
+}
+
+.login-dialog-user-list-item {
+  border-radius: $standard_radius;
+  padding: 4px 4px 0;
+  color: $light_fg_color;
+
+  &:ltr {
+    padding-right: 1em;
+  }
+
+  &:rtl {
+    padding-left: 1em;
+  }
+
+  &:hover {
+    background-color: $inverse_semi_fill_color;
+    color: $fg_color;
+  }
+
+  &:active {
+    background-color: $inverse_fill_color;
+    color: $fg_color;
+  }
+
+  .login-dialog-timed-login-indicator {
+    height: 2px;
+    margin: 2px 0 0 0;
+    background-color: $fg_color;
+  }
+
+  &:focus .login-dialog-timed-login-indicator {
+    background-color: $fg_color;
+  }
+}
+
+.login-dialog-username,
+.user-widget-label {
+  color: $light_fg_color;
+
+  @include font(title);
+
+  text-align: left;
+  padding-left: 15px;
+}
+
+.user-widget-label {
+  &:ltr {
+    padding-left: 18px;
+  }
+
+  &:rtl {
+    padding-right: 18px;
+  }
+}
+
+.login-dialog-prompt-layout {
+  padding: 12px 24px;
+  spacing: 8px;
+  width: 23em;
+}
+
+.login-dialog-prompt-label {
+  color: $light_fg_color;
+  font-size: 1em;
+  padding-top: 1em;
+}
+
+.login-dialog-session-list-button StIcon {
+  icon-size: 1.25em;
+  color: $destructive_color;
+}
+
+.login-dialog-session-list-button {
+  color: $light_fg_color;
+
+  &:hover, &:focus {
+    color: $primary_color;
+  }
+
+  &:active {
+    color: darken($primary_color, 5%);
+  }
+}
+
+//SCREEN SHIELD
+
+.screen-shield-arrows {
+  padding-bottom: 3em;
+}
+
+.screen-shield-arrows Gjs_Arrow {
+  color: white;
+  width: 80px;
+  height: 48px;
+  -arrow-thickness: 12px;
+  -arrow-shadow: none;
+}
+
+.screen-shield-clock {
+  color: white;
+  text-shadow: none;
+  font-weight: 400;
+  text-align: center;
+  padding-bottom: 1.5em;
+}
+
+.screen-shield-clock-time {
+  @include font(display-4);
+
+  text-shadow: none;
+}
+
+.screen-shield-clock-date {
+  @include font(display-2);
+}
+
+.screen-shield-notifications-container {
+  spacing: 6px;
+  width: 30em;
+  background-color: transparent;
+  max-height: 500px;
+
+  .summary-notification-stack-scrollview {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .notification,
+  .screen-shield-notification-source {
+    padding: 8px;
+    border: none;
+    background-color: $alt_bg_color;
+    color: $fg_color;
+    border-radius: $standard_radius;
+  }
+
+  .notification {
+    margin-right: 16px;
+  }
+
+  //compensate for space allocated to the scrollbar
+}
+
+.screen-shield-notification-label {
+  min-height: $small_size - 2px;
+  padding: 2px 0px 0px 16px;
+  font-weight: 400;
+}
+
+.screen-shield-notification-count-text {
+  min-height: $small_size - 2px;
+  padding: 2px 0px 0px 16px;
+  color: $secondary_fg_color;
+}
+
+#panel.lock-screen {
+  background-color: $panel_bg_color;
+}
+
+.screen-shield-background {
+  //just the shadow, really
+  background: black;
+}
+
+#lockDialogGroup {
+  background: url("assets/overview_gradient.svg") transparentize($black, 0.4);
+  background-size: cover;
+  spacing: 24px;
+}
+
+#screenShieldNotifications {
+  StScrollBar {
+    @extend %overview_scrollbar;
+  }
+}
+
+// Looking Glass
+#LookingGlassDialog {
+  background-color: $bg_color;
+  spacing: 4px;
+  padding: 0;
+  border: 1px solid $border_color;
+  border-top-width: 0px !important;
+  border-radius: 0;
+
+  & > #Toolbar {
+    padding: 0 8px;
+    border: none;
+    border-radius: 0;
+    background-color: rgba($base_color, 0.01);
+  }
+
+  .labels {
+    spacing: 0;
+  }
+
+  .notebook-tab {
+    -natural-hpadding: 12px;
+    -minimum-hpadding: 6px;
+    font-weight: 400;
+    color: $secondary_fg_color;
+    transition-duration: $longer_duration;
+    background-color: $fill_color;
+    box-shadow: $shadow_bottom $disabled_fg_color;
+    padding-left: 16px;
+    padding-right: 16px;
+    min-height: $medium_size;
+    padding: 0 (16px * 2);
+
+    &:hover {
+      color: $fg_color;
+      text-shadow: none;
+    }
+
+    &:selected {
+      font-weight: bold;
+      border-bottom-width: 0;
+      border-color: transparent;
+      text-shadow: none;
+
+      &, &:hover {
+        background-color: $semi_fill_color;
+        box-shadow: $shadow_bottom $primary_color;
+        color: $fg_color;
+      }
+    }
+  }
+
+  StBoxLayout#EvalBox {
+    padding: 4px;
+    spacing: 4px;
+  }
+
+  StBoxLayout#ResultsArea {
+    spacing: 4px;
+  }
+}
+
+.lg-dialog {
+  StEntry {
+    border: 1px solid $border_color;
+    selection-background-color: $primary_color;
+    selected-color: $fg_color;
+  }
+
+  .shell-link {
+    color: $link_color;
+
+    &:hover {
+      color: $link_color;
+    }
+  }
+}
+
+.lg-completions-text {
+  font-size: 1em;
+  font-style: italic;
+}
+
+.lg-obj-inspector-title {
+  spacing: 4px;
+}
+
+.lg-obj-inspector-button {
+  min-height: $medium_size;
+  padding: 0 16px;
+  border: none;
+  border-radius: $standard_radius;
+
+  @include font(button);
+
+  @include button;
+
+  &:hover {
+    border: none;
+  }
+}
+
+#lookingGlassExtensions {
+  padding: 4px;
+}
+
+.lg-extensions-list {
+  padding: 4px;
+  spacing: 6px;
+}
+
+.lg-extension {
+  border: none;
+  border-radius: $standard_radius;
+  padding: 4px;
+}
+
+.lg-extension-name {
+  @include font(headline);
+}
+
+.lg-extension-meta {
+  spacing: 6px;
+}
+
+#LookingGlassPropertyInspector {
+  background: $base_color;
+  border: none;
+  border-radius: $standard_radius;
+  padding: 6px;
+}
+
+@include gpaste_support;

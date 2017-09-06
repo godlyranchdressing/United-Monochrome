@@ -1,0 +1,505 @@
+///************///
+/// * Functions * ///
+/// ************///
+@function _pressed_shade($_bg, $value: 1) {
+  // returns pressed/active shade
+  $_amount: TBA;
+  $_amount: $value * 5;
+
+  @return darken($_bg, $_amount);
+}
+
+@function _hover_shade($_bg, $value: 1) {
+  // returns hover shade
+  $_amount: TBA;
+  $_amount: $value * 5;
+
+  @return lighten($_bg, $_amount);
+}
+
+@function _shadow_border($top, $right, $bottom, $left, $color: $border_color, $thicker: false) {
+  // Draw borders with a box shadow
+  @if $thicker == true {
+    @return inset #{$left}px #{$top}px $color, inset -#{$right}px -#{$bottom}px $color, inset #{$left}px #{$top}px $color, inset -#{$right}px -#{$bottom}px $color;
+  }
+  @else {
+    @return inset #{$left}px #{$top}px $color, inset -#{$right}px -#{$bottom}px $color;
+  }
+}
+
+///************///
+/// * Entries * ///
+/// ************///
+@function entry_focus_border($fc: $primary_color) {
+  @return $fc;
+}
+
+@function entry_focus_shadow($fc: $primary_color) {
+  @return inset 0 0 0 1px $fc;
+}
+
+@mixin entry($type, $fc: $primary_color, $in_headerbar: false) {
+  $_bg: TBA;
+  $_fg: TBA;
+  $_bc: TBA;
+  $_bs: TBA;
+  $_dbg: TBA;
+  $_dfg: TBA;
+
+  @if $in_headerbar == true and $headerbar == "dark" {
+    $_bg: $dark_lighter_bg_color;
+    $_fg: $light_fg_color;
+    $_bc: $dark_border_color;
+    $_bs: $button_highlight $dark_button_highlight_color;
+    $_dbg: $dark_disabled_bg_color;
+    $_dfg: $dark_disabled_fg_color;
+  }
+  @else {
+    $_bg: $lighter_bg_color;
+    $_fg: $fg_color;
+    $_bc: $border_color;
+    $_bs: $button_highlight $button_highlight_color;
+    $_dbg: $disabled_bg_color;
+    $_dfg: $disabled_fg_color;
+  }
+
+  @if $type == normal {
+    color: $_fg;
+    border-color: $_bc;
+    box-shadow: $_bs;
+    background-color: $_bg;
+  }
+
+  @if $type == focus {
+    border-color: entry_focus_border($fc);
+    box-shadow: entry_focus_shadow($fc);
+  }
+
+  @if $type == disabled {
+    color: $_dfg;
+    border-color: $_bc;
+    box-shadow: $_bs;
+    background-color: $_dbg;
+  }
+}
+
+///************///
+/// * Buttons * ///
+/// ************///
+@mixin reset_style {
+  // shorthand to reset style for flat buttons
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  background-image: none;
+}
+
+@mixin button($type: normal, $bg: $lighter_bg_color, $fg: $fg_color, $in_headerbar: false) {
+  // $in_header is there to determine if the button background is supposed to be transparent,
+  // all headerbar buttons are supposed to be flat, unless they're something special
+  // like a suggested action or destructive action
+  //
+  // these are the local variables to be used for some fancy if/else statements
+  $_bg: $bg;
+  $_fg: $fg;
+  $_bc: $border_color;
+  $_shadow: $button_highlight $button_highlight_color;
+
+  @if $type == normal {
+    /// * Default state * ///
+
+    @if $in_headerbar == true {
+      $_bg: transparent;
+      $_fg: $headerbar_fg_color;
+      $_bc: transparent;
+      $_shadow: none;
+    }
+    @else {
+      $_bg: $bg;
+      $_fg: if($bg == $lighter_bg_color, $fg, white);
+      $_bc: if($bg == $lighter_bg_color, $border_color, _pressed_shade($bg));
+    }
+
+    background-color: $_bg;
+    color: $_fg;
+    border-color: $_bc;
+    box-shadow: $_shadow;
+    outline-color: transparentize($fg, 0.7);
+  }
+  @else if $type == hover {
+    /// * Hover state * ///
+    @if $in_headerbar == true {
+      $_fg: white;
+      $_bg: _hover_shade(if($bg == $lighter_bg_color, $primary_color, $bg));
+    }
+    @else if $bg != $lighter_bg_color {
+      $_bg: _hover_shade($bg);
+      $_fg: white;
+    }
+    @else {
+      $_bg: $semi_fill_color;
+      $_fg: $fg_color;
+      $_shadow: $button_highlight $button_highlight_color;
+    }
+
+    background-color: $_bg;
+    color: $_fg;
+    box-shadow: $_shadow;
+    border-color: if($bg == $lighter_bg_color, $border_color, _pressed_shade($bg));
+    outline-color: transparentize($fg, 0.7);
+    -gtk-icon-effect: highlight;
+  }
+  @else if $type == active {
+    /// * Pressed state * ///
+
+    $_bg: if($bg == $lighter_bg_color, $fill_color, _pressed_shade($bg));
+    $_fg: if($bg == $lighter_bg_color, $fg_color, white);
+    $_bc: if($bg == $lighter_bg_color, $border_color, _pressed_shade($bg));
+
+    background-color: $_bg;
+    color: $_fg;
+    border-color: $_bc;
+    box-shadow: $_shadow;
+    outline-color: transparentize($fg, 0.7);
+  }
+  @else if $type == checked {
+    /// * Checked/toggled state * ///
+    color: white;
+    background-color: if($bg == $lighter_bg_color, $primary_color, $bg);
+    border-color: _pressed_shade(if($bg == $lighter_bg_color, $primary_color, $bg));
+    outline-color: transparentize($fg, 0.7);
+
+    &:active,
+    &:hover {
+      color: white;
+      background-color: _pressed_shade($bg);
+    }
+
+    &:disabled {
+      background-color: transparentize(_pressed_shade(if($bg == $lighter_bg_color, $primary_color, $bg)), $lower_opacity);
+      border-color: transparentize(_pressed_shade(if($bg == $lighter_bg_color, $primary_color, $bg)), $higher_opacity);
+
+      &, * {
+        color: transparentize(white, $lower_opacity);
+      }
+    }
+  }
+  @else if $type == disabled {
+    /// * Disabled state * ///
+    @if $in_headerbar == true and $headerbar == "dark" {
+      $_bg: if($bg != $lighter_bg_color, mix($dark_lighter_bg_color, $dark_base_color, 85%), $dark_disabled_bg_color);
+      $_fg: if($bg != $lighter_bg_color, mix($dark_fg_color, $_bg, 60%), $dark_disabled_fg_color);
+    }
+    @else {
+      $_bg: if($bg != $lighter_bg_color, mix($lighter_bg_color, $base_color, 85%), $disabled_bg_color);
+      $_fg: if($bg != $lighter_bg_color, mix($fg, $_bg, 40%), $disabled_fg_color);
+    }
+
+    background-color: $_bg;
+    border-color: $border_color;
+
+    &, label, image, arrow, cellview {
+      color: $_fg;
+    }
+  }
+  @else if $type == flat {
+    /// * Flat buttons default state * ///
+    @if $in_headerbar == true and $headerbar == "dark" {
+      $_fg: $light_fg_color;
+    }
+    @else {
+      $_fg: $fg;
+    }
+
+    color: $_fg;
+
+    @include reset_style;
+  }
+  @else if $type == flat-hover {
+    /// * Flat buttons hover state * ///
+
+    @if $bg == $lighter_bg_color {
+      $_bg: $primary_color;
+    }
+    @else {
+      $_bg: $bg;
+    }
+
+    @if $in_headerbar == true {
+      $_fg: transparent;
+      $_bc: transparent;
+    }
+    @else {
+      $_fg: $semi_fill_color;
+      $_bc: $border-color;
+    }
+
+    color: _hover_shade($_bg);
+    background-color: $_fg;
+    border-color: $_bc;
+    box-shadow: none;
+    -gtk-icon-effect: highlight;
+  }
+  @else if $type == flat-active {
+    /// * Flat buttons pressed state * ///
+    // Flat buttons use the same styling for active and toggled/enabled states
+    @if $bg == $lighter_bg_color {
+      $_bg: $primary_color;
+    }
+    @else {
+      $_bg: $bg;
+    }
+
+    @if $in_headerbar == true {
+      $_fg: transparent;
+      $_bc: transparent;
+    }
+    @else {
+      $_fg: $fill_color;
+      $_bc: $border-color;
+    }
+
+    color: _pressed_shade($_bg);
+    background-color: $_fg;
+    box-shadow: none;
+    border-color: $_bc;
+    -gtk-icon-effect: highlight;
+  }
+  @else if $type == flat-checked {
+    /// * Flat buttons pressed state * ///
+    // Flat buttons use the same styling for active and toggled/enabled states
+    @if $in_headerbar == true {
+      $_fg: transparent;
+      $_bc: transparent;
+    }
+    @else {
+      $_fg: $fill_color;
+      $_bc: $border-color;
+    }
+
+    color: _pressed_shade($_bg);
+    background-color: $_fg;
+    box-shadow: none;
+    border-color: $_bc;
+    -gtk-icon-effect: highlight;
+
+    &:hover {
+      color: _pressed_shade($_bg);
+    }
+  }
+  @else if $type == flat-disable {
+    /// * Flat disabled state * ///
+    color: $disabled_fg_color;
+
+    @include reset_style;
+
+    opacity: .5;
+  }
+  @else if $type == toggle {
+    /// * Toggle buttons * ///
+    // This is used by any button that's in the headerbar that has a checked/unchecked state
+    // The best examples are stackswitcher buttons and (see gnome music) and the pathbar in nautilus
+    border-color: transparent;
+
+    @if $in_headerbar == true and $headerbar == "dark" {
+      $_bg: $dark_lighter_bg_color;
+      $_fg: $dark_secondary_fg_color;
+    }
+    @else {
+      $_bg: $lighter_bg_color;
+      $_fg: $secondary_fg_color;
+    }
+
+    color: $_fg;
+    background-color: $_bg;
+    box-shadow: inset 0 0 transparent;
+    border-color: transparent;
+    transition: all 250ms ease;
+
+    &:disabled {
+      box-shadow: $shadow_bottom if($headerbar == "dark", $dark_disabled_fg_color, $disabled_fg_color);
+    }
+  }
+  @else if $type == toggle-hover {
+    /// * Toggle buttons hover state * ///
+    border-color: transparent;
+
+    @if $in_headerbar == true and $headerbar == "dark" {
+      $_bg: $dark_lighter_bg_color;
+      $_fg: $dark_secondary_fg_color;
+    }
+    @else {
+      $_bg: $lighter_bg_color;
+      $_fg: $secondary_fg_color;
+    }
+
+    background-color: $_bg;
+    box-shadow: $shadow_bottom $_fg;
+    color: $_fg;
+    border-color: transparent;
+  }
+  @else if $type == toggle-active {
+    /// * Toggle buttons active state * ///
+    @if $in_headerbar == true and $headerbar == "dark" {
+      $_bg: $dark_lighter_bg_color;
+      $_fg: $primary_color;
+    }
+    @else {
+      $_bg: $lighter_bg_color;
+      $_fg: $primary_color;
+    }
+
+    background-color: $_bg;
+    box-shadow: $shadow_bottom $primary_color;
+    color: $_fg;
+    border-color: transparent;
+
+    label {
+      transition: font-weight 0s;
+      font-weight: bold;
+    }
+
+    &:hover {
+      &, > * {
+        color: _pressed_shade($primary_color);
+      }
+
+      box-shadow: $shadow_bottom _pressed_shade($primary_color);
+    }
+  }
+}
+
+///************///
+/// * Switch * ///
+/// ************///
+
+@mixin switch($in_headerbar: false) {
+  $switch_bg: TBA;
+  $_border_color: TBA;
+  $slider_bg: TBA;
+  $slider_border: TBA;
+
+  @if $in_headerbar == true and $headerbar == "dark" {
+    $switch_bg: $dark_disabled_bg_color;
+    $_border_color: $dark_border_color;
+    $slider_bg: $dark_lighter_bg_color;
+    $slider_border: $dark_button_highlight_color;
+  }
+  @else {
+    $switch_bg: $disabled_bg_color;
+    $_border_color: $border_color;
+    $slider_bg: $lighter_bg_color;
+    $slider_border: $button_highlight_color;
+  }
+
+  background: $switch_bg;
+  color: transparent;
+  box-shadow: $shadow_surround $_border_color;
+  border-radius: $standard_radius;
+  outline-offset: -4px;
+
+  &, slider {
+    transition: $standard_transition;
+  }
+
+  slider {
+    min-height: 25px;
+    min-width: 20px;
+    border-radius: $standard_radius;
+    background: $slider_bg;
+    box-shadow: $shadow_surround $slider_border;
+  }
+
+  &:checked {
+    color: transparent;
+    box-shadow: $shadow_surround _pressed_shade($suggested_color);
+    border-color: _pressed_shade($suggested_color);
+    background-color: $suggested_color;
+
+    &:hover {
+      background-color: _pressed_shade($suggested_color);
+    }
+
+    slider {
+      box-shadow: $shadow_surround _pressed_shade($suggested_color), $shadow_surround _pressed_shade($suggested_color);
+    }
+  }
+
+  &:disabled {
+    &, slider {
+      opacity: $middle_opacity;
+    }
+  }
+}
+
+///************///
+/// * Overshoot * ///
+/// ************///
+@mixin overshoot($p, $type: normal, $bg: mix($white, $primary_color, 50%)) {
+  $_small_gradient_length: 3%;
+  $_big_gradient_length: 50%;
+
+  $_small_gradient_size: 100% $_small_gradient_length;
+  $_big_gradient_size: 100% $_big_gradient_length;
+
+  @if $p == right or $p == left {
+    $_small_gradient_size: $_small_gradient_length 100%;
+    $_big_gradient_size: $_big_gradient_length 100%;
+  }
+
+  $_small_gradient_color: $bg;
+  $_big_gradient_color: transparentize($bg, 0.93);
+
+  @if $bg == $fg_color {
+    $_small_gradient_color: darken($border_color, 10%);
+    $_big_gradient_color: transparentize($fg_color, 0.93);
+  }
+
+  $_small_gradient: radial-gradient(farthest-side at $p, $_small_gradient_color 85%, transparentize($_small_gradient_color, 1));
+
+  $_big_gradient: radial-gradient(farthest-side at $p, $_big_gradient_color, transparentize($_big_gradient_color, 1));
+
+  @if $type == normal {
+    background-image: $_small_gradient, $_big_gradient;
+    background-size: $_small_gradient_size, $_big_gradient_size;
+  }
+
+  background-repeat: no-repeat;
+  background-position: $p;
+  background-color: transparent;
+  border: none;
+}
+
+///************///
+/// * Undershoot * ///
+/// ************///
+@mixin undershoot($p) {
+  // $p: position
+  // possible values: top, bottom, right, left
+
+  $_undershoot_color_dark: mix($white, $primary_color, 50%);
+  $_undershoot_color_light: $_undershoot_color_dark;
+
+  $_gradient_dir: left;
+  $_dash_bg_size: 10px 0;
+  $_gradient_repeat: repeat-x;
+  $_bg_pos: center $p;
+
+  background-color: transparent;
+
+  // shouldn't be needed, but better to be sure;
+  @if $p == left or $p == right {
+    $_gradient_dir: top;
+    $_dash_bg_size: 0 10px;
+    $_gradient_repeat: repeat-y;
+    $_bg_pos: $p center;
+  }
+
+  background-image: linear-gradient(to $_gradient_dir, $_undershoot_color_light 50%, $_undershoot_color_dark 50%);
+  padding-#{$p}: 1px;
+  background-size: $_dash_bg_size;
+  background-repeat: $_gradient_repeat;
+  background-origin: content-box;
+  background-position: $_bg_pos;
+  border: none;
+}

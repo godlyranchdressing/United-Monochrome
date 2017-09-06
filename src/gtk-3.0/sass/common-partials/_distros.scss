@@ -1,0 +1,44 @@
+// add distro colors here
+$primary_color: null;
+$accent_color: null;
+
+@if $distro == "ubuntu" {
+  $primary_color: $ubuntu_orange;
+  $accent_color: $ubuntu_aubergine;
+}
+@else if $distro == "ubuntu-alt" {
+  $primary_color: $ubuntu_maroon;
+  $accent_color: $ubuntu_orange;
+}
+@else if $distro == "arch" {
+  $primary_color: #1793D1;
+  $accent_color: #FF9010;
+}
+@else if $distro == "antergos" {
+  $primary_color: #305193;
+  $accent_color: #7E5FE9;
+}
+@else if $distro == "debian" {
+  $primary_color: #D70751;
+  $accent_color: #407C80;
+}
+@else if $distro == "fedora" {
+  $primary_color: #3C6EB4;
+  $accent_color: #E59728;
+}
+@else if $distro == "manjaro" {
+  $primary_color: #1ABC9C;
+  $accent_color: #E96D19;
+}
+@else if $distro == "opensuse" {
+  $primary_color: #73BA25;
+  $accent_color: #00A489;
+}
+@else if $distro == "solus" {
+  $primary_color: #5294e2;
+  $accent_color: #F46067;
+}
+@else {
+  $primary_color: $ubuntu_orange;
+  $accent_color: $ubuntu_aubergine;
+}

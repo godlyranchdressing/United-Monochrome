@@ -1,0 +1,181 @@
+// Override previously set rules for buttons and window decorations here
+// Putting it at the bottom of common is too messy
+
+headerbar, headerbar.titlebar {
+  // make headerbar elements flat and adjust for the dark headerbar variant
+  entry {
+    @include entry(normal, $in_headerbar: true);
+
+    &:focus {
+      @include entry(focus, $in_headerbar: true);
+    }
+
+    &:disabled {
+      @include entry(disabled, $in_headerbar: true);
+    }
+  }
+
+  button {
+    // make headerbar elements flat and adjust for the dark headerbar variant
+    @include button(normal, $in_headerbar: true);
+
+    &:disabled {
+      @include button(disabled, $in_headerbar: true);
+    }
+
+    margin: 5px 0;
+
+    &.text-button, &.text-button.toggle {
+      &:hover {
+        @include button(hover, $in_headerbar: true);
+      }
+
+      &:active {
+        @include button(active, $primary_color, $in_headerbar: true);
+      }
+
+      &:checked {
+        @include button(checked, $primary_color, $in_headerbar: true);
+      }
+    }
+
+    &.text-button {
+      @each $b_type, $b_color in (suggested-action, $suggested_color), (destructive-action, $destructive_color), (default, $default_action_color) {
+        &.#{$b_type} {
+          @include button(normal, $b_color, white);
+
+          &:hover {
+            @include button(hover, $b_color, white);
+          }
+
+          &:active {
+            @include button(active, $b_color, white);
+          }
+
+          &:disabled {
+            @include button(disabled, $b_color, $in_headerbar: true);
+          }
+        }
+      }
+    }
+
+    &.image-button:not(.text-button), &.toggle:not(.image-button):not(.text-button) {
+      @include button(flat, $primary_color, $in_headerbar: true);
+
+      &:hover {
+        @include button(flat-hover, $primary_color, $in_headerbar: true);
+      }
+
+      &:active, &:checked {
+        @include button(flat-active, $primary_color, $in_headerbar: true);
+      }
+    }
+  }
+
+  stackswitcher.horizontal.linked.stack-switcher, .stack-switcher {
+    // make the stackswitcher look the way we want it to look
+
+    button {
+      &, &.text-button {
+        min-width: 115px;
+        border-width: 0px;
+        border-radius: 0px;
+
+        @include button(toggle, $lighter_bg_color, $primary_color, $in_headerbar: true);
+
+        &:hover {
+          @include button(toggle-hover, $lighter_bg_color, $primary_color, $in_headerbar: true);
+        }
+
+        &:active, &:checked {
+          @include button(toggle-active, $lighter_bg_color, $primary_color, $in_headerbar: true);
+
+          &:disabled {
+            @include button(disabled, $in_headerbar: true);
+          }
+        }
+
+        &:disabled {
+          @include button(disabled, $in_headerbar: true);
+        }
+
+        &:first-child {
+          border-top-left-radius: $standard_radius;
+        }
+
+        &:last-child {
+          border-top-right-radius: $standard_radius;
+        }
+      }
+    }
+  }
+}
+
+stackswitcher button {
+  // stack-switcher styling
+  border-color: $border_color;
+  border-style: solid;
+
+  &:first-child {
+    border-width: 1px 0 1px 1px;
+  }
+
+  &:last-child {
+    border-width: 1px 1px 1px 0px;
+  }
+
+  &:not(:last-child):not(:first-child) {
+    border-width: 1px 0px 1px 0px;
+  }
+}
+
+// Flatter dialog boxes
+
+dialog {
+  background-image: image(if($headerbar == "dark", $light_headerbar_bg, $headerbar_bg_color));
+  color: $headerbar_fg_color;
+}
+
+dialog, messagedialog {
+  decoration {
+    &, &:backdrop {
+      transition: $standard_transition;
+      box-shadow: $decoration_shadow;
+      background-color: transparent;
+    }
+  }
+
+  buttonbox.dialog-action-area button {
+    margin: 0 1px;
+  }
+}
+
+messagedialog {
+  border-width: 0px 1px 1px 1px;
+
+  box.dialog-vbox {
+    min-width: 300px;
+  }
+
+  &.background.csd, box.dialog-vbox.horizontal, buttonbox.dialog-action-area.horizontal.linked, box.horizontal.titlebar {
+    border-style: solid;
+    border-color: if($variant != "dark", #E6E6E6, #2D2D2D);
+  }
+
+  .titlebar {
+    border-width: 1px 1px 0 1px;
+  }
+
+  &.background.csd {
+    &, box.horizontal:last-child {
+      box-shadow: none;
+    }
+  }
+
+  &.background.csd box.horizontal.titlebar {
+    // get rid of the dialog box's forehead
+    min-height: 24px;
+    background-image: image($bg_color);
+    padding: 0px;
+  }
+}

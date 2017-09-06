@@ -1,0 +1,81 @@
+// Colours
+@function scale-alpha($c, $a) {
+  @return scale-color($c, $alpha: percentage(-1 + $a));
+}
+
+@import "color-palette";
+
+// Foreground colors
+$fg_color: if($variant == "light", $dark_fg_color, $light_fg_color);
+$secondary_fg_color: scale-alpha($fg_color, $secondary_opacity);
+$tertiary_fg_color: scale-alpha($fg_color, $tertiary_opacity);
+//
+$light_fg_color: $light_fg_color;
+$secondary_light_fg_color: scale-alpha($light_fg_color, $secondary_opacity);
+$tertiary_light_fg_color: scale-alpha($light_fg_color, $tertiary_opacity);
+
+// Disabled foreground colors
+$disabled_fg_color: scale-alpha($fg_color, $disabled_opacity);
+$disabled_secondary_fg_color: scale-alpha($secondary_fg_color, $disabled_opacity);
+$disabled_tertiary_fg_color: scale-alpha($tertiary_fg_color, $disabled_opacity);
+
+@import "distros"; // determine primary and accent colors to be used
+
+// Background colors
+$bg_color: if($variant == "light", $light_bg_color, $dark_bg_color);
+$base_color: if($variant == "light", $light_base_color, $dark_base_color);
+$alt_base_color: if($variant == "light", $light_alt_base_color, $dark_alt_base_color);
+$alt_bg_color: if($variant == "light", $light_alt_bg_color, $dark_alt_bg_color);
+$lighter_bg_color: if($variant == "light", $light_lighter_bg_color, $dark_lighter_bg_color);
+$panel_bg_color: if($variant == "light", $bg_color, $base_color);
+$dash_bg: if($transparency != true or $variant == "light", $black !important, transparentize($black, $middle_opacity) !important);
+
+@if $transparency == true {
+  $base_color: transparentize($base_color, $shell_transparency);
+  $bg_color: transparentize($bg_color, $shell_transparency);
+  $alt_base_color: transparentize($alt_base_color, $shell_transparency);
+  $alt_bg_color: transparentize($alt_bg_color, $shell_transparency);
+  $lighter_bg_color: transparentize($lighter_bg_color, $shell_transparency);
+}
+@else {
+  $base_color: $base_color;
+  $bg_color: $bg_color;
+  $alt_base_color: $alt_base_color;
+  $alt_bg_color: $alt_bg_color;
+  $lighter_bg_color: $lighter_bg_color;
+}
+
+$semi_fill_color: if($variant == "light", transparentize($fg_color, 0.95), transparentize($fg_color, 0.85));
+$dark_semi_fill_color: transparentize($dark_fg_color, 0.95);
+$fill_color: if($variant == "light", transparentize($fg_color, 0.9), transparentize($fg_color, 0.9));
+$disabled_fill_color: scale-alpha($disabled_fg_color, $disabled_opacity);
+
+$inverse_semi_fill_color: transparentize(if($variant == "light", $light_fg_color, $dark_fg_color), 0.8);
+$inverse_fill_color: transparentize(if($variant == "light", $light_fg_color, $dark_fg_color), 0.9);
+$disabled_inverse_fill_color: scale-alpha(if($variant == "light", $light_fg_color, $dark_fg_color), $disabled_opacity);
+
+$disabled_bg_color: transparentize(if($variant == "light", $alt_bg_color, darken($alt_bg_color, 5%)), $disabled_opacity);
+$disabled_fg_color: scale-alpha($fg_color, $disabled_opacity);
+
+// Theme colours
+$link_color: lighten($accent_color, 10);
+$visited_link_color: darken($accent_color, 10);
+
+// Info colours
+$warning_color: $orange;
+$error_color: $red;
+$suggested_color: $green;
+$success_color: $green;
+$link_color: lighten($accent_color, 5);
+$visited_link_color: darken($accent_color, 5);
+$destructive_color: $red;
+$info_bg_color: $accent_color; // suru's blue would be more accurate here but the blue is being replaced by the accent color (purple)
+$question_bg_color: $accent_color;
+$warning_bg_color: lighten($orange, 5);
+$error_bg_color: darken($red, 5);
+
+// Border and highlight colours
+$osd_border_color: transparentize(if($variant == "light", $white, $black), 0.5);
+$osd_light_border_color: transparentize($white, 0.5);
+$border_color: if($variant == "light", scale-alpha($black, 0.1), scale-alpha($white, 0.1));
+$dark_border_color: scale-alpha($white, 0.1);

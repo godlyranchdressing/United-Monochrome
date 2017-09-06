@@ -1,0 +1,186 @@
+///************///
+/// * Functions * ///
+/// ************///
+@function _pressed_shade($_bg, $value: 1) {
+  // returns pressed/active shade
+  $_amount: TBA;
+  $_amount: $value * 5;
+
+  @return darken($_bg, $_amount);
+}
+
+@function _hover_shade($_bg, $value: 1) {
+  // returns hover shade
+  $_amount: TBA;
+  $_amount: $value * 5;
+
+  @return lighten($_bg, $_amount);
+}
+
+// generic drawing of more complex things
+// provide font size in pt, with px fallback
+@function pt($size: $root-font-size) {
+  @return $size * 0.75 / 1px + pt;
+}
+
+// provide icon size in em, with px fallback
+@function em($size: 16px) {
+  @return $size / $root-font-size + em;
+}
+
+// Typography
+// based on:
+// https://material.io/guidelines/style/typography.html#typography-styles
+
+@mixin font($size) {
+  @if $size == display-4 {
+    // font-family: $large-font-family;
+    font-size: 112px;
+    font-weight: 300;
+
+    // line-height: 1;
+  }
+
+  @if $size == display-3 {
+    // font-family: $large-font-family;
+    font-size: 56px;
+    font-weight: 400;
+
+    // line-height: 1;
+  }
+
+  @if $size == display-2 {
+    // font-family: $large-font-family;
+    font-size: 45px;
+    font-weight: 400;
+
+    // line-height: 48px;
+  }
+
+  @if $size == display-1 {
+    // font-family: $large-font-family;
+    font-size: 34px;
+    font-weight: 400;
+
+    // line-height: 40px;
+  }
+
+  @if $size == headline {
+    font-size: pt(24px);
+    font-weight: 400;
+
+    // line-height: 32px;
+  }
+
+  @if $size == title {
+    font-size: pt(20px);
+    font-weight: 500;
+
+    // line-height: 1;
+  }
+
+  @if $size == subheading {
+    font-size: pt($subheading-size);
+    font-weight: 400;
+
+    // line-height: 24px;
+  }
+
+  @if $size == body-2 {
+    font-size: pt($root-font-size);
+    font-weight: 500;
+
+    // line-height: 24px;
+  }
+
+  @if $size == body-1 {
+    font-size: pt($root-font-size);
+    font-weight: 400;
+
+    // line-height: 20px;
+  }
+
+  @if $size == caption {
+    font-size: pt(12px);
+    font-weight: 400;
+
+    // line-height: 1;
+  }
+
+  @if $size == button {
+    font-size: pt($root-font-size);
+    font-weight: 500;
+
+    // line-height: 20px;
+  }
+}
+
+@mixin entry($_focus_color: $primary_color, $_bg_color: $base_color) {
+  background-color: $_bg_color;
+  color: $fg_color;
+  border-radius: $standard_radius;
+  border: 1px solid transparent;
+  box-shadow: $shadow_surround $border_color;
+  selection-background-color: $primary_color;
+  selected-color: $white;
+  transition-duration: 250ms;
+
+  &:hover, &:focus, &:active {
+    border: 1px solid transparent;
+    box-shadow: $shadow_thicker_surround $border_color;
+    transition-duration: 250ms;
+  }
+
+  &:focus, &:active {
+    box-shadow: $shadow_thicker_surround $primary_color;
+    color: $fg_color;
+  }
+
+  &:disabled {
+    color: $disabled_fg_color;
+    border-color: transparent;
+    box-shadow: none;
+  }
+}
+
+@mixin button {
+  transition-duration: 250ms;
+  color: $fg_color;
+
+  @if $transparency == true {
+    background-color: $base_color;
+  }
+  @else {
+    background-color: if($variant == "light", $lighter_bg_color, $base_color) !important;
+  }
+
+  background-image: none;
+  box-shadow: none;
+  text-shadow: none;
+  icon-shadow: none;
+
+  &:hover, &:focus {
+    color: if($variant == "light", _hover_shade($primary_color), $fg_color);
+    background-color: $semi_fill_color !important;
+    box-shadow: none;
+    text-shadow: none;
+    icon-shadow: none;
+  }
+
+  &:active, &:checked {
+    color: if($variant == "light", _pressed_shade($primary_color), $fg_color);
+    background-color: $fill_color !important;
+    box-shadow: none;
+    text-shadow: none;
+    icon-shadow: none;
+  }
+
+  &:insensitive {
+    color: $disabled_fg_color;
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    text-shadow: none;
+    icon-shadow: none;
+  }
+}

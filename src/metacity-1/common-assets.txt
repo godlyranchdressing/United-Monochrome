@@ -1,0 +1,6 @@
+titlebutton-close
+titlebutton-maximize
+titlebutton-minimize
+titlebutton-close-backdrop
+titlebutton-maximize-backdrop
+titlebutton-minimize-backdrop

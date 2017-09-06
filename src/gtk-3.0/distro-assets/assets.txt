@@ -1,0 +1,6 @@
+titlebutton-close-hover
+titlebutton-close-active
+titlebutton-maximize-hover
+titlebutton-maximize-active
+titlebutton-minimize-hover
+titlebutton-minimize-active

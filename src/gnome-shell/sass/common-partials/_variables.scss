@@ -1,0 +1,57 @@
+$extra_background_clip: if($variant == "light", padding-box, border-box);
+$panel-corner-radius: 0;
+
+// font families
+$font-family: Ubuntu, Cantarell, Sans-Serif;
+
+@if $distro == "fedora" {
+  $font-family: Cantarell, Ubuntu, Sans-Serif;
+}
+
+// font sizes
+$root-font-size: 14px;
+$subheading-size: 16px;
+
+// opacities
+$higher_opacity: 0.9;
+$middle_opacity: 0.5;
+$lower_opacity: 0.3;
+$secondary_opacity: 0.75;
+$tertiary_opacity: 0.6;
+$disabled_opacity: 0.4;
+$quarternary_opacity: $disabled_opacity;
+$shell_transparency: .25; // transparency value to use for the Shell
+
+// sizes
+$small_size: 20px;
+$medium_size: 32px;
+$large_size: 44px;
+$container_padding: 6px;
+$bar_size: 4px;
+$osd_border_length: 8px;
+$menuitem_size: 30px;
+$menu_gap: 8px;
+
+// radiuses
+$standard_radius: 6px;
+$circular_radius: 9999px;
+
+// durations
+$shorter_duration: 75ms;
+$standard_duration: 150ms;
+$longer_duration: 250ms;
+
+// timing functions
+$deceleration_curve: cubic-bezier(0, 0, 0.2, 1);
+$sharp_curve: cubic-bezier(0.4, 0, 0.6, 1);
+
+// transition shorthands
+$shorter_transition: all $standard_duration $deceleration_curve;
+$longer_transition: all $longer_duration $deceleration_curve;
+
+// Shadow borders
+$osd_box_shadow_length: 0 0 0 8px;
+$shadow_bottom: inset 0 -2px 0px;
+$shadow_surround: inset 0 0px 0px 1px;
+$shadow_thicker_surround: inset 0 0px 0px 2px;
+$popover_shadow: 0 3px 3px rgba(0, 0, 0, 0.16), 0 3px 3px rgba(0, 0, 0, 0.23); // for menus in light variant

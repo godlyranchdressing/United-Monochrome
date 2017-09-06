@@ -1,0 +1,9 @@
+checkbox-checked-selectionmode
+checkbox-selectionmode
+checkbox-selectionmode-dark
+titlebutton-close
+titlebutton-maximize
+titlebutton-minimize
+titlebutton-close-dark
+titlebutton-maximize-dark
+titlebutton-minimize-dark

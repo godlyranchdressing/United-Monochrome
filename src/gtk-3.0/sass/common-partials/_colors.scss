@@ -1,0 +1,63 @@
+// Colors are assigned here, colors are defined in the color-palette file
+
+@function gtkalpha($c, $a) {
+  @return unquote("alpha(#{$c}, #{$a})");
+}
+
+@function scale-alpha($c, $a) {
+  @return scale-color($c, $alpha: percentage(-1 + $a));
+}
+
+@import "color-palette";
+
+// primary foreground colors
+$fg_color: if($variant == "light", $dark_fg_color, $light_fg_color);
+$inverse_fg_color: if($variant == "light", $light_fg_color, $dark_fg_color);
+$highlighted_fg_color: white;
+
+// secondary foreground colors
+$secondary_fg_color: if($variant == "light", $light_secondary_fg_color, $dark_secondary_fg_color);
+$secondary_inverse_fg_color: scale-alpha(if($variant == "light", $light_fg_color, $dark_fg_color), $secondary_opacity);
+
+// background colors
+$bg_color: if($variant == "light", $light_bg_color, $dark_bg_color);
+$base_color: if($variant == "light", $light_base_color, $dark_base_color);
+$alt_base_color: if($variant == "light", $light_alt_base_color, $dark_alt_base_color);
+$alt_bg_color: if($variant == "light", $light_alt_bg_color, $dark_alt_bg_color);
+$lighter_bg_color: if($variant == "light", $light_lighter_bg_color, $dark_lighter_bg_color);
+
+// headerbar colors
+$headerbar_bg_color: if($headerbar == "dark" or $variant == "dark", $dark_headerbar_bg, $light_headerbar_bg);
+$headerbar_fg_color: if($headerbar == "dark" or $variant == "dark", $light_fg_color, $fg_color);
+$secondary_headerbar_fg_color: if($headerbar == "dark" or $variant == "dark", $secondary_inverse_fg_color, $secondary_fg_color);
+
+@import "distros"; // Theme colours
+
+// Info colours
+$info_color: $primary_color; // suru's blue would be more accurate here but we're replacing the blue with the much more familiar accent color (purple)
+$question_color: $primary_color;
+$progress_color: $primary_color;
+$suggested_color: $primary_color;
+$success_color: $primary_color;
+$link_color: lighten($accent_color, 5);
+$warning_color: lighten($orange, 5);
+$error_color: darken($red, 5);
+$default_action_color: $primary_color;
+$destructive_color: $red;
+
+// hover states
+$semi_fill_color: darken($lighter_bg_color, 5%);
+$fill_color: darken($lighter_bg_color, 10%);
+
+// Aux colors
+$border_color: if($variant == "light", $light_border_color, $dark_border_color);
+$button_highlight: inset 0 -1px;
+$button_highlight_color: if($variant == "light", $light_button_highlight_color, $dark_button_highlight_color);
+$highlight_color: if($variant == "light", scale-alpha(white, 0.4), scale-alpha(white, 0.1));
+$unity_highlight_color: if($headerbar == "dark", scale-alpha(white, 0.1), scale-alpha(white, 0.2));
+
+// disabled and backdrop states
+$disabled_bg_color: if($variant == "light", $light_disabled_bg_color, $dark_disabled_bg_color);
+$solid_disabled_bg_color: if($variant == "light", #E9E9E9, #171717); // since the disabled bg colors use transparency, any element that's over another would look differently, most notably spinbuttons
+$disabled_fg_color: if($variant == "light", $light_disabled_fg_color, $dark_disabled_fg_color);
+$disabled_secondary_fg_color: if($variant == "light", $light_disabled_secondary_fg_color, $dark_disabled_secondary_fg_color)

@@ -1,0 +1,284 @@
+@mixin fancy_dock {
+  //Fancify the dash
+
+  #dashtodockContainer {
+    StWidget {
+      // get rid of default hover effects for dash to dock
+      background-color: transparent;
+    }
+
+    .app-well-app-running-dot {
+      background-color: transparent;
+    }
+  }
+
+  @each $g in left right top bottom {
+    // loop through each position and apply styling
+    $_border_radius: null;
+    $_dock_border: null;
+
+    @if $g == "left" {
+      // if the dock is pinned to the left ☜(ﾟ∀ﾟ☜)
+      $_border_radius: 0 $standard_radius $standard_radius 0;
+      $_dock_border: inset -1px 0 $border_color;
+    }
+
+    @if $g == "right" {
+      // to the right (☞ﾟ∀ﾟ)☞
+      $_border_radius: $standard_radius 0 0 $standard_radius;
+      $_dock_border: inset 1px 0 $border_color;
+    }
+
+    @if $g == "bottom" {
+      // now down ☟(˚▽˚)☟
+      $_border_radius: $standard_radius $standard_radius 0 0;
+
+      // leaves a shadow on the dash for some reason
+      $_dock_border: inset 0px 1 $border_color;
+    }
+
+    @if $g == "top" {
+      // and up ☝(˚▽˚)☝
+      $_border_radius: 0 0 $standard_radius $standard_radius;
+      $_dock_border: inset 0px -1 $border_color;
+    }
+
+    #dashtodockContainer {
+      &.#{$g} {
+        #dash {
+          // apply glass effect and get rid of default dash's border
+          background-color: $dash_bg !important;
+          border-radius: $_border_radius;
+          box-shadow: $_dock_border;
+        }
+      }
+    }
+  }
+
+  #dashtodockContainer #dash {
+    .app-well-app {
+      &:hover {
+        background-color: transparentize($primary_color, $secondary_opacity);
+      }
+
+      &:active {
+        background-color: transparentize(_pressed_shade($primary_color), $secondary_opacity);
+      }
+    }
+
+    @for $i from 1 through 4 {
+      // inject the external indicators
+      .running#{$i} {
+        .app-well-app-running-dot {
+          background-image: url("assets/dash/running#{$i}-indicator.svg");
+        }
+      }
+    }
+  }
+}
+
+@mixin ubuntu_launcher {
+  .show-apps {
+    .overview-icon {
+      // give it the new launcher icon
+      background-image: url("assets/#{if($distro == "ubuntu-alt", "ubuntu", $distro)}-launcher.svg") !important;
+      background-size: contain;
+    }
+
+    StWidget {
+      &, &:checked, &:hover, &:active {
+        // remove the original icon and get rid of its border
+        background-color: transparent !important;
+        color: transparent;
+        border-width: 0px;
+      }
+    }
+  }
+
+  #dashtodockContainer, .dashtopanelMainPanel {
+    // the non-panel mode dock
+    #dash {
+      border-width: 0px;
+    }
+
+    .show-apps {
+      .overview-icon {
+        // circular icon for Dash to Panel and for Dash to Dock's non-extended mode
+        border-radius: $circular_radius;
+      }
+
+      &:hover {
+        .overview-icon {}
+      }
+
+      &:checked, &:active {
+        .overview-icon {}
+      }
+    }
+  }
+
+  #dashtodockContainer.extended {
+    // extended / panel mode
+    .show-apps {
+      .overview-icon {
+        // revert to default
+        border-radius: 0px;
+        background-color: transparent !important;
+      }
+    }
+
+    .show-apps {
+      // make the entirety of the .show-apps container the launcher color since we don't want a radius
+      background-color: $launcher_background !important;
+
+      &:hover {
+        background-color: _hover_shade($launcher_background) !important;
+      }
+
+      &:checked, &:active {
+        background-color: _pressed_shade($launcher_background) !important;
+      }
+    }
+  }
+
+  @if $distro == "ubuntu" or $distro == "ubuntu-alt" or $distro == "fedora" or $distro == "solus" {
+    // give a background to launcher icons that need one
+    .dashtopanelMainPanel {
+      .show-apps {
+        .overview-icon {
+          background-color: $launcher_background !important;
+          padding: 0.18em;
+          margin: auto 0.18em;
+        }
+
+        &:hover {
+          .overview-icon {
+            background-color: _hover_shade($launcher_background) !important;
+          }
+        }
+
+        &:active, &:checked {
+          .overview-icon {
+            background-color: _pressed_shade($launcher_background) !important;
+          }
+        }
+      }
+    }
+  }
+  @else {
+    // give feedback to icons that don't have a background
+    .dashtopanelMainPanel StButton.show-apps:last-child {
+      &:hover {
+        background-color: transparentize($light_fg_color, 0.95);
+      }
+
+      &:active {
+        background-color: transparentize($light_fg_color, 0.9);
+
+        * {
+          box-shadow: none;
+        }
+      }
+    }
+  }
+}
+
+@mixin global_menu_padding {
+  .applet-box {
+    // imterim global menu support | creds to neowiz73 from omgubuntu! > honestly didn't think his suggestion would work
+    .applet-menu-content {
+      // they're popup-menu-items and the spacing should be consistent in this theme the spacing is 12px, we're dividing that by half
+      spacing: 4px;
+    }
+
+    .popup-menu-item {
+      // no padding just looks weird so we're going to use the remaining spacing to make the menu items themselves look nicer
+
+      padding: 0 4px;
+      color: $fg_color;
+
+      &:hover {
+        // hover effect consistent with regular panel buttons
+        color: if($panel == "light" or $variant == "light", transparentize($dark_fg_color, $lower_opacity), transparentize($fg_color, $lower_opacity));
+      }
+
+      &:active, &:focus, &:checked {
+        // same as above
+        background-color: rgba($bg_color, 0.01);
+        box-shadow: inset 0 -2px 0px $primary_color;
+        color: $fg_color;
+      }
+    }
+  }
+}
+
+@mixin uniform_panel_spacing {
+  // Makes spacing between indicators and the aggregate menu uniform
+  #panelRight {
+    .panel-button, .panel-status-indicators-box,
+    .panel-status-menu-box, .system-status-icon {
+      // reset everything
+      -natural-hpadding: 0px;
+      -minimum-hpadding: 0px;
+      spacing: 0px;
+      padding: 0px;
+      icon-size: em(18px);
+    }
+
+    .panel-button {
+      -natural-hpadding: 6px;
+    }
+
+    .panel-status-indicators-box {
+      .system-status-icon {
+        padding: 0 10px 0 0px;
+      }
+    }
+  }
+
+  #panelLeft, #panelCenter {
+    .panel-button {
+      -natural-hpadding: 10px;
+      -minimum-hpadding: 10px;
+      spacing: 0px;
+    }
+  }
+
+  #panel .popup-menu-arrow {
+    min-width: 0px !important;
+    width: 0px !important;
+    padding: 0px !important;
+    -natural-hpadding: 0px !important;
+    height: 0px;
+  }
+}
+
+@mixin gpaste_support {
+  /* GPaste */
+  .popup-menu {
+    .search-entry {
+      color: $fg_color;
+      selection-background-color: transparentize($primary_color, $middle_opacity);
+      selected-color: $fg_color;
+
+      @include entry(normal);
+
+      &:focus {
+        @include entry(focus);
+
+        color: $fg_color;
+      }
+
+      .search-entry-icon {
+        color: $tertiary_fg_color;
+      }
+
+      &:focus,
+      &:hover {
+        .search-entry-icon {
+          color: $fg_color;
+        }
+      }
+    }
+  }
+}

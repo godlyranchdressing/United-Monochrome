@@ -1,0 +1,9 @@
+ubuntu
+ubuntu-alt
+antergos
+arch
+debian
+fedora
+manjaro
+opensuse
+solus
